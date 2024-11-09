@@ -1,0 +1,45 @@
+<div class="account-item" *ngIf="accountData"> <!-- Verifica se accountData está definido -->
+  <h2 class="account-title">Dados da Conta</h2>
+
+  <div class="account-details">
+    <div class="account-section">
+      <h3>Pessoal</h3>
+      <p><strong>Nome:</strong> {{ accountData.person.name }}</p>
+      <p><strong>Data de Nascimento:</strong> {{ accountData.person.birth_date | date:'longDate' }}</p>
+      <p><strong>Nome da Mãe:</strong> {{ accountData.person.mother_name }}</p>
+      <p><strong>CPF:</strong> {{ accountData.person.tax_id }}</p>
+      <h4>Telefones:</h4>
+      <ul>
+        <li *ngFor="let phone of accountData.person.phones">
+          {{ phone.type }}: {{ phone.country }} {{ phone.area }} {{ phone.number }}
+        </li>
+      </ul>
+      <h4>Endereço:</h4>
+      <p>{{ accountData.person.address.street }}, {{ accountData.person.address.number }}</p>
+      <p>{{ accountData.person.address.complement }}</p>
+      <p>{{ accountData.person.address.city }}, {{ accountData.person.address.region_code }}, {{ accountData.person.address.country }} - {{ accountData.person.address.postal_code }}</p>
+    </div>
+
+    <div class="account-section">
+      <h3>Empresa</h3>
+      <p><strong>Nome da Empresa:</strong> {{ accountData.company.name }}</p>
+      <p><strong>CNPJ:</strong> {{ accountData.company.tax_id }}</p>
+      <h4>Telefones:</h4>
+      <ul>
+        <li *ngFor="let phone of accountData.company.phones">
+          {{ phone.type }}: {{ phone.country }} {{ phone.area }} {{ phone.number }}
+        </li>
+      </ul>
+      <h4>Endereço:</h4>
+      <p>{{ accountData.company.address.street }}, {{ accountData.company.address.number }}</p>
+      <p>{{ accountData.company.address.complement }}</p>
+      <p>{{ accountData.company.address.city }}, {{ accountData.company.address.region_code }}, {{ accountData.company.address.country }} - {{ accountData.company.address.postal_code }}</p>
+    </div>
+  </div>
+
+  <div class="tos-acceptance">
+    <h3>Aceitação dos Termos</h3>
+    <p><strong>Data de Aceitação:</strong> {{ accountData.tos_acceptance.date | date:'longDate' }}</p>
+    <p><strong>IP do Usuário:</strong> {{ accountData.tos_acceptance.user_ip }}</p>
+  </div>
+</div>

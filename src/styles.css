@@ -121,7 +121,7 @@ input {
 }
 
 .button.cta:disabled {
-  background-color: #f590c4;
+  background-color: #3280b7;
   color: #aaa;
 }
 
@@ -156,9 +156,9 @@ button:not([disabled]):active::after {
 }
 
 button:not([disabled]).cta::after {
-  box-shadow: 0 0 10px 20px #f590c4;
+  box-shadow: 0 0 10px 20px #3280b7;
 }
 
 button:not([disabled]).cta:active::after {
-  box-shadow: 0 0 0 0 #f590c4;
+  box-shadow: 0 0 0 0 #3280b7;
 }

@@ -1,0 +1,26 @@
+<br>
+<br>
+<div class="order-summary" *ngIf="orderData && orderData.length > 0">
+  <h2>Resumo das Ordens</h2>
+  <div *ngFor="let order of orderData">
+    <h3>Ordem #{{ order.id }}</h3>
+    <p><strong>Descrição:</strong> {{ order.charges[0].description }}</p>
+    <p><strong>Valor:</strong> R$ {{ (order.charges[0].amount.value / 100) | number:'1.2-2' }}</p>
+    <p><strong>Cliente:</strong> {{ order.customer.name }}</p>
+    <p><strong>Email:</strong> {{ order.customer.email }}</p>
+
+    <button (click)="toggleDetails(order.id)">
+      {{ showDetails[order.id] ? 'Ocultar Detalhes' : 'Ver Mais Detalhes' }}
+    </button>
+
+    <div class="order-details" *ngIf="showDetails[order.id]">
+      <h4>Detalhes da Ordem</h4>
+      <p><strong>Forma de Pagamento:</strong> {{ order.charges[0].payment_method.type }}</p>
+      <p><strong>Parcelas:</strong> {{ order.charges[0].installments }}</p>
+      <p><strong>Endereço:</strong> {{ order.shipping.address.street }}, {{ order.shipping.address.city }}, {{ order.shipping.address.region_code }}</p>
+      <p><strong>Produto:</strong> {{ order.items[0].name }} (Qtd: {{ order.items[0].quantity }})</p>
+    </div>
+    <hr>
+  </div>
+
+</div>

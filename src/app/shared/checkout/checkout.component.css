@@ -1,0 +1,54 @@
+.checkout-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Divida em duas colunas */
+  grid-gap: 40px; /* Espaço entre as colunas */
+}
+
+.checkout-form {
+  grid-column: 1; /* Fica na primeira coluna */
+}
+
+.cart-summary {
+  grid-column: 2; /* Fica na segunda coluna */
+}
+
+.checkout-button {
+  grid-column: 1 / span 2; /* Faz o botão ocupar a largura de ambas as colunas */
+  text-align: center;
+  margin-top: 20px;
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+legend {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #ccc;
+}

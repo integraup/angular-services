@@ -1,14 +1,40 @@
 <div class="container">
   <div class="left">
     <img class="logo" src="/assets/images/logo.png" alt="Logo" />
-    <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
-    <a routerLink="/search" routerLinkActive="active">Search</a>
-    <div class="cart">
-      <a routerLink="/cart" routerLinkActive="active">Cart</a>
-    </div>
+    <a routerLink="/catalog" routerLinkActive="active">Espelhos Orgânicos</a>
+    <!-- <a routerLink="/search" routerLinkActive="active">Busca</a> -->
   </div>
   <div class="right">
-    <a routerLink="/squad/bot-squad" routerLinkActive="active">Bot Squad</a>
-    <a routerLink="/squad/squad-cart">Squad Roster</a>
+    <ng-container>
+      <div class="cart">
+        <a routerLink="/cart" routerLinkActive="active">
+          <i class="fas fa-shopping-cart"></i> <!-- Ícone do carrinho -->
+        </a>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!(currentUser$ | async)">
+      <div class="login">
+        <a routerLink="/login" routerLinkActive="active">
+          <i class="fas fa-sign-in-alt"></i> <!-- Ícone de Login -->
+        </a>
+      </div>
+      <div class="register">
+        <a routerLink="/squad/account-squad" routerLinkActive="active">
+          <i class="fas fa-user-plus"></i> <!-- Ícone de Cadastro -->
+        </a>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="currentUser$ | async as user">
+      <!-- Link de Pedidos visível apenas se o usuário estiver logado -->
+      <a routerLink="/squad/bot-order" routerLinkActive="active">Pedidos</a>
+      <span>
+        <a routerLink="/squad/bot-itemAccount" routerLinkActive="active">{{ user.email }}</a>
+      </span>
+      <a (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i> <!-- Ícone de Logout -->
+      </a>
+    </ng-container>
   </div>
 </div>

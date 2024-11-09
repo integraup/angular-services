@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../product.model';
+import { CartService } from '@core/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'bot-cart',
@@ -7,25 +9,26 @@ import { Product } from '../product.model';
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-  private cart: Product[] = [];
 
-  constructor() { }
+
+  constructor(private cardService: CartService, private router: Router) { }
 
   ngOnInit() { }
 
   get cartItems() {
-    return this.cart;
+    return this.cardService.cart();
   }
 
   get cartTotal() {
-    return this.cart.reduce((prev, next) => {
-      let discount = next.discount && next.discount > 0 ? 1 - next.discount : 1;
-      return prev + next.price * discount;
-    }, 0);
+    return this.cardService.cartTotal();
   }
 
   removeFromCart(product: Product) {
-    this.cart.filter(p => p.id !== product.id);
+    this.cardService.remove(product);
+  }
+
+  proceedToCheckout() {
+    this.router.navigate(['/checkout'], { state: { cart: this.cartItems, total: this.cartTotal } });
   }
 
   getImageUrl(product: Product) {

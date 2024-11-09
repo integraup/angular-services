@@ -4,15 +4,15 @@
     <div class="product-info">
       <div class="name">{{ product.name }}</div>
       <div class="description">{{ product.description }}</div>
-      <div class="category">Part Type: {{ product.category }}</div>
+      <div class="category">Medidas: {{ product.category }}</div>
     </div>
   </div>
   <div class="price">
     <div [ngClass]="{ strikethrough: product.discount > 0 }">
-      {{ product.price | currency : "USD" }}
+      {{ product.price | currency:'BRL':'symbol' }}
     </div>
     <div *ngIf="product.discount > 0" class="discount">
-      {{ product.price * (1 - product.discount) | currency : "USD" }}
+      {{ product.price * (1 - product.discount) | currency:'BRL':'symbol' }}
     </div>
     <ng-content></ng-content>
   </div>

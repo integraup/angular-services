@@ -1,0 +1,118 @@
+<br>
+<br>
+<div class="account-container">
+  <div *ngIf="!isSellesType" class="account-title">
+    Cadastro de clientes
+  </div>
+
+  <div *ngIf="isSellesType" class="account-title">
+    Cadastro de empresa
+  </div>
+
+  <!-- <div *ngIf="!isSellesType" class="account-subtitle">
+    Cadastro de clientes
+  </div> -->
+
+  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <!-- Account Type (hidden) -->
+      <input hidden id="type" formControlName="type" />
+
+      <!-- Email -->
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" class="form-input" />
+    </div>
+
+    <div class="form-group">
+      <!-- Password -->
+      <label for="password">Senha:</label>
+      <input id="password" formControlName="password" type="password" class="form-input" />
+
+      <!-- Repeat Password -->
+      <label for="passwordTwo">Repita a Senha:</label>
+      <input id="passwordTwo" formControlName="passwordTwo" type="password" class="form-input" />
+    </div>
+
+    <!-- Personal Information -->
+    <fieldset formGroupName="person">
+      <legend>Informações para entrega</legend>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label for="person-name">Nome:</label>
+        <input id="person-name" formControlName="name" class="form-input" />
+      </div>
+
+      <!-- Birth Date -->
+      <div class="form-group">
+        <label for="person-birth_date">Data de Nascimento:</label>
+        <input id="person-birth_date" type="date" formControlName="birth_date" class="form-input" />
+      </div>
+
+      <!-- Mother's Name -->
+      <div class="form-group">
+        <label for="person-mother_name">Nome da Mãe:</label>
+        <input id="person-mother_name" formControlName="mother_name" class="form-input" />
+      </div>
+
+      <!-- Tax ID -->
+      <div class="form-group">
+        <label for="person-tax_id">CPF:</label>
+        <input id="person-tax_id" formControlName="tax_id" class="form-input" />
+      </div>
+
+      <!-- Address -->
+      <fieldset formGroupName="address">
+        <legend>Endereço</legend>
+
+        <div class="form-group">
+          <label for="person-street">Rua:</label>
+          <input id="person-street" formControlName="street" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="person-number">Número:</label>
+          <input id="person-number" formControlName="number" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="person-complement">Complemento:</label>
+          <input id="person-complement" formControlName="complement" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="person-city">Cidade:</label>
+          <input id="person-city" formControlName="city" class="form-input" />
+        </div>
+
+        <div class="form-group">
+          <label for="person-region_code">CEP:</label>
+          <input id="person-region_code" formControlName="region_code" class="form-input" />
+        </div>
+      </fieldset>
+
+      <!-- Phones -->
+      <div formArrayName="phones">
+        <div *ngFor="let phone of personPhones.controls; let i = index" [formGroupName]="i">
+          <fieldset>
+            <legend>Telefone #{{ i + 1 }}</legend>
+            <label for="person-country-{{i}}">País:</label>
+            <input id="person-country-{{i}}" formControlName="country" class="form-input" />
+
+            <label for="person-area-{{i}}">Área:</label>
+            <input id="person-area-{{i}}" formControlName="area" class="form-input" />
+
+            <label for="person-number-{{i}}">Número:</label>
+            <input id="person-number-{{i}}" formControlName="number" class="form-input" />
+          </fieldset>
+        </div>
+        <button type="button" (click)="addPersonPhone()">Adicionar Telefone</button>
+      </div>
+    </fieldset>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" class="btn-submit">Cadastrar</button>
+    </div>
+  </form>
+</div>

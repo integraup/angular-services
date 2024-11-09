@@ -1,6 +1,6 @@
-# JoesRobotShop
+# Shop
 
-This is the demo project for Pluralsight's Angular Services course.
+Projeto de loja online integrada com a plataforma PagBank.
 
 ## Development server
 

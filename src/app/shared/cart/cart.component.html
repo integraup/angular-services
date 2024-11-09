@@ -1,8 +1,8 @@
 <div class="container">
-  <h1 class="header">Your Cart</h1>
+  <h1 class="header">Carrinho de compras</h1>
 
   <div class="empty-cart" *ngIf="cartItems.length === 0">
-    You have no items in your cart
+    Não há itens no carrinho.
   </div>
   <ul class="cart">
     <li class="cart-item" *ngFor="let product of cartItems">
@@ -11,5 +11,6 @@
       </bot-product-details>
     </li>
   </ul>
-  <div class="total">Total: {{ cartTotal | currency }}</div>
+  <div class="total">Total: {{ cartTotal | currency:'BRL':'symbol' }}</div>
+  <button *ngIf="cartItems.length > 0" (click)="proceedToCheckout()">Finalizar Compra</button>
 </div>

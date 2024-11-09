@@ -1,0 +1,99 @@
+<div class="checkout-container">
+
+  <div class="checkout-form">
+    <h2>Formulário de Checkout</h2>
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+      <fieldset>
+        <legend>Informações do Cliente</legend>
+        <label>
+          Nome:
+          <input formControlName="customerName" type="text" required />
+        </label>
+        <label>
+          E-mail:
+          <input formControlName="customerEmail" type="email" required />
+        </label>
+        <label>
+          ID de Contribuinte (CPF):
+          <input formControlName="customerTaxId" type="text" required />
+        </label>
+        <label>
+          Número de Telefone:
+          <input formControlName="customerPhone" type="text" required />
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Endereço de Entrega</legend>
+        <label>
+          Rua:
+          <input formControlName="street" type="text" required />
+        </label>
+        <label>
+          Número:
+          <input formControlName="number" type="text" required />
+        </label>
+        <label>
+          Complemento:
+          <input formControlName="complement" type="text" />
+        </label>
+        <label>
+          Localidade:
+          <input formControlName="locality" type="text" required />
+        </label>
+        <label>
+          Cidade:
+          <input formControlName="city" type="text" required />
+        </label>
+        <label>
+          Código da Região (Estado):
+          <input formControlName="regionCode" type="text" required />
+        </label>
+        <label>
+          Código Postal (sem o traço):
+          <input formControlName="postalCode" type="text" required />
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Informações de Pagamento</legend>
+        <label>
+          Nome do Titular do Cartão:
+          <input formControlName="cardHolderName" type="text" required />
+        </label>
+        <label>
+          Número do Cartão:
+          <input formControlName="cardNumber" type="text" required />
+        </label>
+        <label>
+          Mês de Expiração:
+          <input formControlName="expMonth" type="text" required />
+        </label>
+        <label>
+          Ano de Expiração:
+          <input formControlName="expYear" type="text" required />
+        </label>
+        <label>
+          Código de Segurança (CVV):
+          <input formControlName="securityCode" type="text" required />
+        </label>
+      </fieldset>
+
+      <div class="checkout-button">
+        <button type="submit">Enviar</button>
+        <!-- <button (click)="encryptCard()">Encriptar Cartão</button> -->
+      </div>
+    </form>
+  </div>
+
+  <div class="cart-summary">
+    <h2>Carrinho de Compras</h2>
+    <ul class="cart">
+      <li *ngFor="let product of cartItems">
+        {{ product.name }} - {{ product.price | currency }} x {{ product.quantity }}
+      </li>
+    </ul>
+    <div class="total">Total: {{ cartTotal | currency }}</div>
+  </div>
+
+</div>

@@ -36,7 +36,7 @@
   top: -7px;
   right: -19px;
   border-radius: 25px;
-  background-color: #f590c4;
+  background-color: #3280b7;
   color: white;
   font-size: 14px;
 }
@@ -64,4 +64,51 @@
   position: absolute;
   top: 60px;
   right: 30px;
+}
+
+.cart {
+  display: flex;
+  align-items: center;
+}
+
+.cart a {
+  text-decoration: none;
+  color: #333; /* Cor do texto */
+  font-size: 16px; /* Tamanho da fonte */
+}
+
+.cart i {
+  margin-right: 5px; /* Espaçamento entre o ícone e o texto */
+}
+
+/* Ajustes para dispositivos móveis */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column; /* Muda para coluna */
+    align-items: center; /* Centraliza os itens */
+    font-size: 18px; /* Ajusta o tamanho da fonte */
+  }
+
+  .left, .right {
+    justify-content: center; /* Centraliza itens */
+    margin-right: 0; /* Remove margem à direita */
+    margin-bottom: 10px; /* Adiciona margem inferior */
+  }
+
+  .logo {
+    margin: 0 auto; /* Centraliza a logo */
+  }
+
+  .cart {
+    margin: 0 auto; /* Centraliza o carrinho */
+  }
+
+  .sign-out {
+    position: static; /* Remove posição absoluta */
+    margin-top: 10px; /* Adiciona espaço superior */
+  }
+
+  .cart img {
+    height: 30px; /* Ajusta o tamanho da imagem do carrinho */
+  }
 }

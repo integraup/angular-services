@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "joes-robot-shop": {
+    "integraup-shop": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/joes-robot-shop",
+            "outputPath": "dist/integraup-shop",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -26,7 +26,8 @@
               "src/app/home/images"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": []
           },
@@ -52,7 +53,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -61,10 +68,11 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "joes-robot-shop:build:production"
+              "buildTarget": "integraup-shop:build:production"
             },
             "development": {
-              "buildTarget": "joes-robot-shop:build:development"
+              "buildTarget": "integraup-shop:build:development",
+               "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
@@ -72,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "joes-robot-shop:build"
+            "buildTarget": "integraup-shop:build"
           }
         },
         "test": {
@@ -95,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
