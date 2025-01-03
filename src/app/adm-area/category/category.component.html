@@ -1,0 +1,52 @@
+                    <div class="category-container">
+                      <h1>Gerenciar Categorias</h1>
+
+                      <!-- Formulário para criar ou editar -->
+                      <form (ngSubmit)="isEditing ? updateCategory() : addCategory()" class="category-form">
+                        <div>
+                          <label for="name">Nome da Categoria:</label>
+                          <input
+                            id="name"
+                            [(ngModel)]="selectedCategory.name"
+                            name="name"
+                            placeholder="Nome"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label for="description">Descrição:</label>
+                          <input
+                            id="description"
+                            [(ngModel)]="selectedCategory.description"
+                            name="description"
+                            placeholder="Descrição"
+                          />
+                        </div>
+                        <div class="form-actions">
+                          <button type="submit" class="btn btn-primary">{{ isEditing ? 'Salvar' : 'Adicionar' }}</button>
+                          <button *ngIf="isEditing" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
+                        </div>
+                      </form>
+
+
+                      <!-- Lista de categorias -->
+                      <table class="category-table">
+                        <thead>
+                          <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let category of categories">
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.description }}</td>
+                            <td>
+                              <button class="btn btn-edit" (click)="editCategory(category)">Editar</button>
+                              <button class="btn btn-delete" (click)="deleteCategory(category.id!)">Excluir</button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>

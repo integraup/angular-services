@@ -1,118 +1,352 @@
 <br>
-<br>
+
 <div class="account-container">
-  <div *ngIf="!isSellesType" class="account-title">
-    Cadastro de clientes
-  </div>
-
-  <div *ngIf="isSellesType" class="account-title">
-    Cadastro de empresa
-  </div>
-
-  <!-- <div *ngIf="!isSellesType" class="account-subtitle">
-    Cadastro de clientes
-  </div> -->
-
-  <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+  <form *ngIf="isFirstStep" [formGroup]="passwordForm" (ngSubmit)="nextStep()">
     <div class="form-group">
-      <!-- Account Type (hidden) -->
-      <input hidden id="type" formControlName="type" />
-
-      <!-- Email -->
       <label for="email">Email:</label>
       <input id="email" formControlName="email" type="email" class="form-input" />
     </div>
 
     <div class="form-group">
-      <!-- Password -->
       <label for="password">Senha:</label>
       <input id="password" formControlName="password" type="password" class="form-input" />
 
-      <!-- Repeat Password -->
-      <label for="passwordTwo">Repita a Senha:</label>
-      <input id="passwordTwo" formControlName="passwordTwo" type="password" class="form-input" />
+      <label for="confirmPassword">Repita a Senha:</label>
+      <input id="confirmPassword" formControlName="confirmPassword" type="password" class="form-input" />
     </div>
 
-    <!-- Personal Information -->
-    <fieldset formGroupName="person">
-      <legend>Informações para entrega</legend>
-
-      <!-- Name -->
-      <div class="form-group">
-        <label for="person-name">Nome:</label>
-        <input id="person-name" formControlName="name" class="form-input" />
-      </div>
-
-      <!-- Birth Date -->
-      <div class="form-group">
-        <label for="person-birth_date">Data de Nascimento:</label>
-        <input id="person-birth_date" type="date" formControlName="birth_date" class="form-input" />
-      </div>
-
-      <!-- Mother's Name -->
-      <div class="form-group">
-        <label for="person-mother_name">Nome da Mãe:</label>
-        <input id="person-mother_name" formControlName="mother_name" class="form-input" />
-      </div>
-
-      <!-- Tax ID -->
-      <div class="form-group">
-        <label for="person-tax_id">CPF:</label>
-        <input id="person-tax_id" formControlName="tax_id" class="form-input" />
-      </div>
-
-      <!-- Address -->
-      <fieldset formGroupName="address">
-        <legend>Endereço</legend>
-
-        <div class="form-group">
-          <label for="person-street">Rua:</label>
-          <input id="person-street" formControlName="street" class="form-input" />
-        </div>
-
-        <div class="form-group">
-          <label for="person-number">Número:</label>
-          <input id="person-number" formControlName="number" class="form-input" />
-        </div>
-
-        <div class="form-group">
-          <label for="person-complement">Complemento:</label>
-          <input id="person-complement" formControlName="complement" class="form-input" />
-        </div>
-
-        <div class="form-group">
-          <label for="person-city">Cidade:</label>
-          <input id="person-city" formControlName="city" class="form-input" />
-        </div>
-
-        <div class="form-group">
-          <label for="person-region_code">CEP:</label>
-          <input id="person-region_code" formControlName="region_code" class="form-input" />
-        </div>
-      </fieldset>
-
-      <!-- Phones -->
-      <div formArrayName="phones">
-        <div *ngFor="let phone of personPhones.controls; let i = index" [formGroupName]="i">
-          <fieldset>
-            <legend>Telefone #{{ i + 1 }}</legend>
-            <label for="person-country-{{i}}">País:</label>
-            <input id="person-country-{{i}}" formControlName="country" class="form-input" />
-
-            <label for="person-area-{{i}}">Área:</label>
-            <input id="person-area-{{i}}" formControlName="area" class="form-input" />
-
-            <label for="person-number-{{i}}">Número:</label>
-            <input id="person-number-{{i}}" formControlName="number" class="form-input" />
-          </fieldset>
-        </div>
-        <button type="button" (click)="addPersonPhone()">Adicionar Telefone</button>
-      </div>
-    </fieldset>
-
-    <!-- Submit Button -->
     <div class="form-actions">
-      <button type="submit" class="btn-submit">Cadastrar</button>
+      <button type="submit" class="btn-submit">Próximo</button>
     </div>
   </form>
+
+  <form *ngIf="!isFirstStep" [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+    <!-- Demais campos do formulário -->
+    <fieldset formGroupName="person">
+      <div *ngIf="!isSellesType" class="account-title">
+        Cadastro de clientes
+      </div>
+
+      <div *ngIf="isSellesType" class="account-title">
+        Cadastro de empresa
+      </div>
+
+      <!-- <div *ngIf="!isSellesType" class="account-subtitle">
+        Cadastro de clientes
+      </div> -->
+
+      <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+
+
+        <div *ngIf="isSellesType" class="form-group">
+          <label for="business_category">Categoria do Negócio:</label>
+          <select id="business_category" formControlName="business_category" class="form-input">
+            <option value="" disabled selected>Selecione a categoria</option>
+            <option value="BUTCHERY">Açougue</option>
+            <option value="LEGAL_SERVICE">Advogados e Serviços Legais</option>
+            <option value="TAILOR_AND_SEAMSTRESS">Alfaiates / Costureiras</option>
+            <option value="ARCHITECTURAL_AND_ENGINEERING">Arquiteto e Engenheiro</option>
+            <option value="ART_AND_ANTIQUE">Arte e Antiguidades</option>
+            <option value="RELIGION_AND_SPIRITUALITY">Artigos Religiosos</option>
+            <option value="VEHICLE_AND_PARTS">Automóveis e Acessórios</option>
+            <option value="VEHICLE_SERVICES">Borracheiro / Mecânico / Funilaria / Pintura</option>
+            <option value="BEAUTY_AND_BARBER">Cabeleireiro / Barbeiro / Manicure</option>
+            <option value="KEY_CHAIN">Chaveiro</option>
+            <option value="PACKAGE_STORE">Comércio de bebidas</option>
+            <option value="FOOD_RETAIL">Comércio Varejista de Alimentos</option>
+            <option value="ADULT_CONTENT">Conteúdo Adulto</option>
+            <option value="REAL_ESTATE_AGENT">Corretor de imobiliária</option>
+            <option value="BROKER">Corretor de seguro</option>
+            <option value="DENTISTRY">Dentista / Ortodontista</option>
+            <option value="FREIGHT_FORWARDER">Despachante</option>
+            <option value="HOUSEHOLD_APPLIANCE">Eletrônicos / Eletrodomésticos</option>
+            <option value="GENERAL_CONTRACTOR">Empreiteiros Autônomos</option>
+            <option value="GOVERNMENT">Entidades Públicas</option>
+            <option value="HEALTH_AND_BEAUTY_SERVICE">Esteticista / Massagista</option>
+            <option value="NONDURABLE_GOODS">Feira Livre</option>
+            <option value="MEDICAL_SERVICE">Fisioterapeutas / Fonoaudiólogos / Nutricionista / Psicólogo / Enfermeiros</option>
+            <option value="PHOTOGRAPHY_AND_VIDEO">Fotografia e gravação</option>
+            <option value="SUPERMARKET">Hipermercado / mercado / minimercado</option>
+            <option value="LODGING">Hospedagem e Turismo</option>
+            <option value="FLORIST">Jardineiro/Florista/Paisagista</option>
+            <option value="JEWELRY_AND_WATCH">Jóias e Relógios</option>
+            <option value="OTHER_SERVICES">Marceneiros / Serralheiros / Vidraceiros</option>
+            <option value="BAKERY">Padaria</option>
+            <option value="PERSONAL_TRAINER">Personal Trainer</option>
+            <option value="PET_SUPPLIES">Pet Shop</option>
+            <option value="PODIATRIST_AND_CHIROPODIST">Podólogos / Pedicuros</option>
+            <option value="PROFESSIONAL_SERVICE">Prestadores Serviços</option>
+            <option value="REPAIR_SHOPS">Reparos diversos</option>
+            <option value="RESTAURANT">Restaurantes e similares</option>
+            <option value="CLOTHING_AND_ACCESSORIES">Roupas e Acessórios</option>
+            <option value="MOBILE_SERVICE">Serviço de celular e telefonia</option>
+            <option value="EDUCATION">Serviços de Educação</option>
+            <option value="ENTERTAINMENT">Serviços de recreação e lazer</option>
+            <option value="TATTOOIST">Tatuadores</option>
+            <option value="TRANSPORTATION_SERVICE">Táxi - Autônomos</option>
+            <option value="HOUSE_HOLD">Utensílios Domésticos</option>
+            <option value="DOOR_TO_DOOR_SALES">Vendas à Domicílio</option>
+            <option value="VETERINARY_SERVICE">Veterinários</option>
+          </select>
+        </div>
+
+      <!-- <div class="form-group">
+
+          <input hidden id="type" formControlName="type" />
+
+
+          <label for="email">Email:</label>
+          <input id="email" formControlName="email" type="email" class="form-input" />
+        </div>
+
+        <div class="form-group">
+
+          <label for="password">Senha:</label>
+          <input id="password" formControlName="password" type="password" class="form-input" />
+
+
+          <label for="passwordTwo">Repita a Senha:</label>
+          <input id="passwordTwo" formControlName="passwordTwo" type="password" class="form-input" />
+        </div>  -->
+
+        <!-- Personal Information -->
+        <fieldset formGroupName="person">
+          <legend *ngIf="!isSellesType">Informações para entrega</legend>
+          <legend *ngIf="isSellesType">Dados do dono da conta </legend>
+          <!-- Name -->
+          <div class="form-group">
+            <label for="person-name">Nome:</label>
+            <input id="person-name" formControlName="name" class="form-input" />
+          </div>
+
+          <!-- Birth Date -->
+          <div class="form-group">
+            <label for="person-birth_date">Data de Nascimento:</label>
+            <input id="person-birth_date" type="date" formControlName="birth_date" class="form-input" />
+          </div>
+
+          <!-- Mother's Name -->
+          <div class="form-group">
+            <label for="person-mother_name">Nome da Mãe:</label>
+            <input id="person-mother_name" formControlName="mother_name" class="form-input" />
+          </div>
+
+          <!-- Tax ID -->
+          <div class="form-group">
+            <label for="person-tax_id">CPF:</label>
+            <input id="person-tax_id" formControlName="tax_id" class="form-input" />
+          </div>
+
+          <!-- Address -->
+          <fieldset formGroupName="address">
+            <legend>Endereço</legend>
+
+            <div class="form-group">
+              <label for="person-street">Rua:</label>
+              <input id="person-street" formControlName="street" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="person-number">Número:</label>
+              <input id="person-number" formControlName="number" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="person-complement">Complemento:</label>
+              <input id="person-complement" formControlName="complement" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="person-city">Cidade:</label>
+              <input id="person-city" formControlName="city" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="person-region_code">Estado:</label>
+              <select id="person-region_code" formControlName="region_code" class="form-input">
+                <option value="" disabled selected>Selecione o estado</option>
+                <option value="AC">Acre (AC)</option>
+                <option value="AL">Alagoas (AL)</option>
+                <option value="AP">Amapá (AP)</option>
+                <option value="AM">Amazonas (AM)</option>
+                <option value="BA">Bahia (BA)</option>
+                <option value="CE">Ceará (CE)</option>
+                <option value="DF">Distrito Federal (DF)</option>
+                <option value="ES">Espírito Santo (ES)</option>
+                <option value="GO">Goiás (GO)</option>
+                <option value="MA">Maranhão (MA)</option>
+                <option value="MT">Mato Grosso (MT)</option>
+                <option value="MS">Mato Grosso do Sul (MS)</option>
+                <option value="MG">Minas Gerais (MG)</option>
+                <option value="PA">Pará (PA)</option>
+                <option value="PB">Paraíba (PB)</option>
+                <option value="PR">Paraná (PR)</option>
+                <option value="PE">Pernambuco (PE)</option>
+                <option value="PI">Piauí (PI)</option>
+                <option value="RJ">Rio de Janeiro (RJ)</option>
+                <option value="RN">Rio Grande do Norte (RN)</option>
+                <option value="RS">Rio Grande do Sul (RS)</option>
+                <option value="RO">Rondônia (RO)</option>
+                <option value="RR">Roraima (RR)</option>
+                <option value="SC">Santa Catarina (SC)</option>
+                <option value="SP">São Paulo (SP)</option>
+                <option value="SE">Sergipe (SE)</option>
+                <option value="TO">Tocantins (TO)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="person-postal_code">CEP:</label>
+              <input id="person-postal_code" formControlName="postal_code" class="form-input" />
+            </div>
+
+
+
+
+          </fieldset>
+
+          <!-- Phones -->
+          <div formArrayName="phones">
+            <div *ngFor="let phone of personPhones.controls; let i = index" [formGroupName]="i">
+              <fieldset>
+                <legend>Telefone para contato</legend>
+                <label for="person-country-{{i}}">País:</label>
+                <input id="person-country-{{i}}" formControlName="country" class="form-input" />
+
+                <label for="person-area-{{i}}">Área:</label>
+                <input id="person-area-{{i}}" formControlName="area" class="form-input" />
+
+                <label for="person-number-{{i}}">Número:</label>
+                <input id="person-number-{{i}}" formControlName="number" class="form-input" />
+              </fieldset>
+            </div>
+            <!-- <button type="button" (click)="addPersonPhone()">Adicionar Telefone</button> -->
+          </div>
+
+        </fieldset>
+
+        <fieldset *ngIf="isSellesType" formGroupName="company">
+          <legend>Dados da Empresa</legend>
+          <div class="form-group">
+            <label for="person-name">Razão Social:</label>
+            <input id="person-name" formControlName="name" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="person-tax_id">CNPJ:</label>
+            <input id="person-tax_id" formControlName="tax_id" class="form-input" />
+          </div>
+          <fieldset formGroupName="address">
+            <legend>Endereço</legend>
+
+            <div class="form-group">
+              <label for="company-street">Rua:</label>
+              <input id="company-street" formControlName="street" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="company-number">Número:</label>
+              <input id="company-number" formControlName="number" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="company-locality">Bairro:</label>
+              <input id="company-locality" formControlName="locality" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="company-city">Cidade:</label>
+              <input id="company-city" formControlName="city" class="form-input" />
+            </div>
+
+            <div class="form-group">
+              <label for="company-region_code">Estado:</label>
+              <select id="company-region_code" formControlName="region_code" class="form-input">
+                <option value="" disabled selected>Selecione o estado</option>
+                <option value="AC">Acre (AC)</option>
+                <option value="AL">Alagoas (AL)</option>
+                <option value="AP">Amapá (AP)</option>
+                <option value="AM">Amazonas (AM)</option>
+                <option value="BA">Bahia (BA)</option>
+                <option value="CE">Ceará (CE)</option>
+                <option value="DF">Distrito Federal (DF)</option>
+                <option value="ES">Espírito Santo (ES)</option>
+                <option value="GO">Goiás (GO)</option>
+                <option value="MA">Maranhão (MA)</option>
+                <option value="MT">Mato Grosso (MT)</option>
+                <option value="MS">Mato Grosso do Sul (MS)</option>
+                <option value="MG">Minas Gerais (MG)</option>
+                <option value="PA">Pará (PA)</option>
+                <option value="PB">Paraíba (PB)</option>
+                <option value="PR">Paraná (PR)</option>
+                <option value="PE">Pernambuco (PE)</option>
+                <option value="PI">Piauí (PI)</option>
+                <option value="RJ">Rio de Janeiro (RJ)</option>
+                <option value="RN">Rio Grande do Norte (RN)</option>
+                <option value="RS">Rio Grande do Sul (RS)</option>
+                <option value="RO">Rondônia (RO)</option>
+                <option value="RR">Roraima (RR)</option>
+                <option value="SC">Santa Catarina (SC)</option>
+                <option value="SP">São Paulo (SP)</option>
+                <option value="SE">Sergipe (SE)</option>
+                <option value="TO">Tocantins (TO)</option>
+              </select>
+            </div>
+
+
+
+            <div class="form-group">
+              <label for="company-postal_code">CEP:</label>
+              <input id="company-postal_code" formControlName="postal_code" class="form-input" />
+            </div>
+
+
+
+
+          </fieldset>
+
+          <fieldset formArrayName="phones">
+            <div *ngFor="let phone of companyPhones.controls; let i = index" [formGroupName]="i" class="form-group">
+              <!-- <label>Telefone {{ i + 1 }}</label> -->
+
+              <div class="form-row">
+                <label for="company-country-{{i}}">País:</label>
+                <input formControlName="country" placeholder="Código do País" class="form-input small" />
+
+                <label for="company-area-{{i}}">Área:</label>
+                <input formControlName="area" placeholder="DDD" class="form-input small" />
+                <label for="company-number-{{i}}">Número:</label>
+                <input formControlName="number" placeholder="Número" class="form-input" />
+                <label for="company-number-{{i}}">Tipo:</label>
+                <select formControlName="type" class="form-input small">
+                  <option value="MOBILE">Celular</option>
+                  <option value="FIXED">Fixo</option>
+                </select>
+                <!-- <button type="button" (click)="removeCompanyPhone(i)" class="btn-remove">Remover</button> -->
+              </div>
+            </div>
+
+            <!-- <button type="button" (click)="addCompanyPhone()" class="btn-add">
+              Adicionar Telefone
+            </button> -->
+          </fieldset>
+      </fieldset>
+
+
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="button" (click)="previousStep()">Voltar</button>
+          <button type="submit" class="btn-submit">Cadastrar</button>
+        </div>
+      </form>
+    </fieldset>
+
+    <!-- <div class="form-actions">
+      <button type="button" (click)="previousStep()">Voltar</button>
+      <button type="submit" class="btn-submit">Cadastrar</button>
+    </div> -->
+  </form>
 </div>
+
+

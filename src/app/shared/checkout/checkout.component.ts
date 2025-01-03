@@ -54,19 +54,13 @@ export class CheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.firebaseAuthService.currentUser$.subscribe(user => {
-      if (user?.email) {
-        this.accountService.getAccountByEmail(user.email).subscribe(
-          (data) => {
-            this.accountData = data;
-            this.populateFormWithAccountData();
-          },
-          (error) => {
-            this.notificationService.notify(NotificationType.Error, 'Erro ao recuperar dados. Verifique suas credenciais com o administrador.');
-          }
-        );
-      }
-    });
+
+    const userData = this.firebaseAuthService.getUserData();
+
+  if (userData?.accountData) {
+    this.accountData = userData.accountData;
+    this.populateFormWithAccountData();
+  }
   }
 
   populateFormWithAccountData(): void {
@@ -90,7 +84,7 @@ export class CheckoutComponent implements OnInit {
         city: this.accountData.person.address.city,
         regionCode: this.accountData.person.address.region_code,
         postalCode: this.accountData.person.address.postal_code,
-        cardHolderName: this.accountData.person.name
+        cardHolderName: this.accountData.person.name,
       });
     }
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '@angular/fire/auth';
-import { FirebaseAuthService } from '@shared/oauth/firebase-auth.service';
+import { FirebaseAuthService, UserData } from '@shared/oauth/firebase-auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./site-header.component.css'],
 })
 export class SiteHeaderComponent {
-  currentUser$: Observable<User | null>;
+  currentUser$: Observable<UserData | null>;
 
   constructor(private firebaseAuthService: FirebaseAuthService) {
     // Assina o Observable para monitorar o estado do usuário

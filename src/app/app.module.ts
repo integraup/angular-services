@@ -12,6 +12,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment.development';
 import { NotificationComponent } from '@core/notification/notification.component';
+import { AdmAreaModule } from './adm-area/adm-area.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { NotificationComponent } from '@core/notification/notification.component
     SiteHeaderComponent,
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule, FormsModule,
-    NotificationComponent, CatalogModule],
+    NotificationComponent, CatalogModule, AdmAreaModule],
   providers: [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),

@@ -1,0 +1,49 @@
+<!-- adm-area.component.html -->
+<div class="adm-area">
+  <!-- Sidebar (Menu Lateral) -->
+  <div class="sidebar">
+    <nav>
+      <ul>
+        <li>
+          <a routerLink="home" routerLinkActive="active">
+            <i class="fas fa-home"></i> Home
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="order" routerLinkActive="active">
+            <i class="fas fa-shopping-cart"></i> Pedidos
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/category" routerLinkActive="active">
+            <i class="fas fa-tags"></i> Categoria
+          </a>
+        </li>
+        <li>
+          <a routerLink="/new-product" routerLinkActive="active">
+            <i class="fas fa-box-open"></i> Produtos
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/settings" routerLinkActive="active">
+            <i class="fas fa-cogs"></i> Configurações
+          </a>
+        </li>
+
+        <li>
+          <a routerLink="/profile" routerLinkActive="active">
+            <i class="fas fa-user"></i> Perfil
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Área de Conteúdo -->
+  <div class="content">
+    <router-outlet></router-outlet> <!-- Aqui será carregado o componente filho -->
+  </div>
+</div>

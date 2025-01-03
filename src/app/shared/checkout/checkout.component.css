@@ -1,54 +1,107 @@
+/* Global Reset */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Container */
 .checkout-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Divida em duas colunas */
-  grid-gap: 40px; /* Espaço entre as colunas */
+  grid-template-columns: 1fr;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
 }
 
-.checkout-form {
-  grid-column: 1; /* Fica na primeira coluna */
+@media (min-width: 768px) {
+  .checkout-container {
+    grid-template-columns: 2fr 1fr;
+  }
 }
 
-.cart-summary {
-  grid-column: 2; /* Fica na segunda coluna */
-}
-
-.checkout-button {
-  grid-column: 1 / span 2; /* Faz o botão ocupar a largura de ambas as colunas */
-  text-align: center;
-  margin-top: 20px;
+/* Formulário */
+.checkout-form h2,
+.cart-summary h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 fieldset {
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   padding: 15px;
   margin-bottom: 20px;
+  border-radius: 8px;
 }
 
 legend {
   font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 18px;
+  color: #555;
 }
 
 label {
   display: block;
   margin-bottom: 10px;
+  font-size: 14px;
 }
 
 input {
-  width: 100%;
-  padding: 8px;
+  width: 97%;
+  padding: 10px;
   margin-top: 5px;
-  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
+.inline-group {
+  gap: 10px;
+}
+
+.inline-group label {
+  flex: 1;
+}
+
+/* Botão */
 button {
-  padding: 10px 20px;
+  padding: 15px 20px;
   background-color: #28a745;
   color: white;
   border: none;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #218838;
 }
 
 button:disabled {
   background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Resumo do Pedido */
+.cart-summary {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.cart {
+  list-style: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 14px;
 }

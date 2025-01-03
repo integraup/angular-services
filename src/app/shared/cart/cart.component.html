@@ -1,16 +1,40 @@
 <div class="container">
-  <h1 class="header">Carrinho de compras</h1>
+  <h1 class="header">Carrinho de Compras</h1>
 
   <div class="empty-cart" *ngIf="cartItems.length === 0">
     Não há itens no carrinho.
   </div>
-  <ul class="cart">
+  <ul class="cart" *ngIf="cartItems.length > 0">
     <li class="cart-item" *ngFor="let product of cartItems">
-      <bot-product-details [product]="product">
-        <button (click)="removeFromCart(product)">Remove</button>
-      </bot-product-details>
+      <div class="product">
+        <div class="product-details">
+          <img
+            [src]="product.imageUrls[0]"
+            [alt]="product.name"
+            class="product-image"
+          />
+          <div class="product-info">
+            <div class="name">{{ product.name }}</div>
+            <div class="description">{{ product.description }}</div>
+            <div class="category">Categoria: {{ product.category }}</div>
+          </div>
+        </div>
+        <div class="price">
+          <div [ngClass]="{ strikethrough: product.discount > 0 }">
+            {{ product.price | currency: 'BRL':'symbol' }}
+          </div>
+          <div *ngIf="product.discount > 0" class="discount">
+            {{ product.price * (1 - product.discount) | currency: 'BRL':'symbol' }}
+          </div>
+          <button (click)="removeFromCart(product)">Remover</button>
+        </div>
+      </div>
     </li>
   </ul>
-  <div class="total">Total: {{ cartTotal | currency:'BRL':'symbol' }}</div>
-  <button *ngIf="cartItems.length > 0" (click)="proceedToCheckout()">Finalizar Compra</button>
+  <div class="cart-summary" *ngIf="cartItems.length > 0">
+    <div class="total">Total: {{ cartTotal | currency: 'BRL':'symbol' }}</div>
+    <button class="checkout-button" (click)="proceedToCheckout()">
+      Finalizar Compra
+    </button>
+  </div>
 </div>

@@ -15,19 +15,19 @@ export class AccountItemComponent implements OnInit {
   constructor(private accountService: AccountService, private firebaseAuthService: FirebaseAuthService, private notificationService: NotificationService){}
   accountData?: AccountData;
   ngOnInit(): void {
-    this.firebaseAuthService.currentUser$.subscribe(user => {
-      if (user && user.email) {
-        const email = user.email;
-        this.accountService.getAccountByEmail(email).subscribe(
-          (data) => {
-            console.log('Conta recuperada:', data);
-            this.accountData = data;
-          },
-          (error) => {
-            this.notificationService.notify(NotificationType.Error, 'Erro ao recuperar dados. Verifique suas credenciais com o administrador.');
-          }
-        );
-      }
-    });
+    // this.firebaseAuthService.currentUser$.subscribe(user => {
+    //   if (user && user.email) {
+    //     const email = user.email;
+    //     this.accountService.getAccountByEmail(email).subscribe(
+    //       (data) => {
+    //         console.log('Conta recuperada:', data);
+    //         this.accountData = data;
+    //       },
+    //       (error) => {
+    //         this.notificationService.notify(NotificationType.Error, 'Erro ao recuperar dados. Verifique suas credenciais com o administrador.');
+    //       }
+    //     );
+    //   }
+    // });
   }
 }

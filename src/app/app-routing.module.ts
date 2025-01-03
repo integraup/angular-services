@@ -7,6 +7,8 @@ import { ReceiveComponent } from '@shared/receive/receive.component';
 import { LoginComponent } from '@shared/oauth/login/login.component';
 import { RecoverPasswordComponent } from '@shared/oauth/recover-password/recover-password.component';
 import { CheckoutComponent } from '@shared/checkout/checkout.component';
+import { AuthGuard } from '@shared/oauth/auth.guard';
+import { AuthAdmGuard } from '@shared/oauth/authAdm.guard';
 
 @Injectable({providedIn: 'root'})
 export class AdminGuard {
@@ -17,16 +19,17 @@ export class AdminGuard {
 }
 
 const routes: Routes = [
-  { path: 'catalog', component: CatalogComponent, title: "Catalog - PAGPAG - Loja Online", canActivate: mapToCanActivate([AdminGuard]), },
+  { path: 'catalog', component: CatalogComponent, title: "Catalog - PAGPAG - Loja Online", },
   { path: 'search', component: SearchComponent, title: "Search - PAGPAG - Loja Online" },
   { path: 'cart', component: CartComponent, title: "Cart - PAGPAG - Loja Online" },
-  { path: 'checkout', component: CheckoutComponent, title: "checkout - PAGPAG - Loja Online" },
+  { path: 'checkout', component: CheckoutComponent, canActivate: mapToCanActivate([AuthGuard]), title: "checkout - PAGPAG - Loja Online" },
   { path: 'login', component: LoginComponent, title: "Acesso - PAGPAG - Loja Online" },
 
   { path: 'recover', component: RecoverPasswordComponent, title: "Rcover - PAGPAG - Loja Online" },
 
   { path: 'connect_salles', component: ReceiveComponent, title: "Autorização de uso da plataforma" },
   { path: 'squad', loadChildren: () => import('./squad/squad.module').then(m => m.SquadModule) },
+  { path: 'adm', loadChildren: () => import('./adm-area/adm-area.module').then(m => m.AdmAreaModule), canActivate: mapToCanActivate([AuthAdmGuard]), },
   { path: '', redirectTo: '/catalog', pathMatch: 'full' },
 ];
 

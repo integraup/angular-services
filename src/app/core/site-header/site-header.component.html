@@ -1,7 +1,7 @@
 <div class="container">
   <div class="left">
     <img class="logo" src="/assets/images/logo.png" alt="Logo" />
-    <a routerLink="/catalog" routerLinkActive="active">Espelhos Orgânicos</a>
+    <a routerLink="/catalog"><i class="fas fa-home"></i></a>
     <!-- <a routerLink="/search" routerLinkActive="active">Busca</a> -->
   </div>
   <div class="right">
@@ -20,7 +20,7 @@
         </a>
       </div>
       <div class="register">
-        <a routerLink="/squad/account-squad" routerLinkActive="active">
+        <a routerLink="/squad/account-squad/BUYER" routerLinkActive="active">
           <i class="fas fa-user-plus"></i> <!-- Ícone de Cadastro -->
         </a>
       </div>
@@ -28,7 +28,10 @@
 
     <ng-container *ngIf="currentUser$ | async as user">
       <!-- Link de Pedidos visível apenas se o usuário estiver logado -->
-      <a routerLink="/squad/bot-order" routerLinkActive="active">Pedidos</a>
+      <!-- <a routerLink="/squad/bot-order" routerLinkActive="active">Pedidos</a> -->
+      <a routerLink="/adm" routerLinkActive="active">
+        <i class="fas fa-cogs"></i> <!-- Ícone de Cadastro -->
+      </a>
       <span>
         <a routerLink="/squad/bot-itemAccount" routerLinkActive="active">{{ user.email }}</a>
       </span>

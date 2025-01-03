@@ -1,0 +1,121 @@
+/* adm-area.component.scss */
+.adm-area {
+  display: flex;
+  height: 90vh;
+  overflow-y: auto;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  top: 110;
+  left: 0;
+  height: 100%;
+  overflow-y: auto; /* Para permitir rolagem se necessário */
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  margin: 10px 0; /* Distância entre os itens */
+}
+
+.sidebar nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center; /* Alinha os ícones e o texto */
+  transition: background-color 0.3s; /* Transição suave para o fundo */
+  padding: 10px 15px; /* Espaçamento entre o texto e a borda */
+}
+
+.sidebar nav ul li a:hover {
+  background-color: #444; /* Cor de fundo ao passar o mouse */
+  border-radius: 5px; /* Bordas arredondadas */
+}
+
+.sidebar nav ul li a.active {
+  font-weight: bold;
+  background-color: #555; /* Cor ativa */
+}
+
+.sidebar nav ul li a i {
+  margin-right: 10px; /* Espaço entre o ícone e o texto */
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+  padding-left: 20px; /* Indentação dos subitens */
+}
+
+.submenu li {
+  margin: 5px 0;
+}
+
+.submenu li a {
+  color: #ccc; /* Cor dos subitens */
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+}
+
+.submenu li a i {
+  font-size: small;
+  margin-right: 5px; /* Espaço entre o ícone e o texto */
+}
+
+.submenu li a:hover {
+  color: white;
+  background-color: #444; /* Cor de fundo ao passar o mouse */
+  border-radius: 5px;
+}
+
+.submenu li a.active {
+  font-weight: bold;
+  color: #fff;
+  background-color: #555; /* Cor ativa */
+}
+
+/* Animação para o menu expansivo */
+.menu-toggle {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-toggle i {
+  transition: transform 0.3s ease;
+}
+
+/* Content área */
+.content {
+  margin-left: 280px; /* Ajusta o conteúdo para não sobrepor o sidebar */
+  padding: 20px;
+  background-color: #ecebeb44;
+  height: 90%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* Ajustes de Responsividade */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .content {
+    margin-left: 220px;
+  }
+}

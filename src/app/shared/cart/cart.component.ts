@@ -16,7 +16,9 @@ export class CartComponent implements OnInit {
   ngOnInit() { }
 
   get cartItems() {
-    return this.cardService.cart();
+    var item = this.cardService.cart();
+    console.log(item);
+    return item;
   }
 
   get cartTotal() {
@@ -31,8 +33,10 @@ export class CartComponent implements OnInit {
     this.router.navigate(['/checkout'], { state: { cart: this.cartItems, total: this.cartTotal } });
   }
 
-  getImageUrl(product: Product) {
-    if (!product) return '';
-    return '/assets/images/robot-parts/' + product.imageName;
+  getImageUrl(product: Product): string {
+    if (product.imageUrls && product.imageUrls.length > 0) {
+      return product.imageUrls[0]; // Usa a primeira imagem do produto
+    }
+    return '/assets/placeholder.png'; // Caminho para imagem padrão
   }
 }

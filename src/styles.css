@@ -67,9 +67,10 @@ ul {
 button {
   position: relative;
   font-size: 15px;
-  padding: 15px 25px;
-  background-color: #5cadd2;
-  color: #fff;
+  padding: 10px 20px;
+  background-color: transparent;
+  color: #292929;
+  margin-right: 3px;
   border: 0;
   box-shadow: none;
   border-radius: 5px;

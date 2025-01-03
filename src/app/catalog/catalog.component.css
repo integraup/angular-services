@@ -1,71 +1,183 @@
-.bold {
+.catalog-container {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.side-menu {
+  flex: 0 0 250px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.side-menu h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #343a40;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.side-menu li {
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.side-menu li:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.side-menu li.active {
+  background-color: #218838;
+  color: white;
   font-weight: bold;
 }
 
-.container {
+.content-area {
+  flex: 1;
+}
+
+.products-grid {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
-button.cta {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #5bbbff;
-  color: #ddd;
-  border: none; /* Remove borda padrão */
-  padding: 10px 20px; /* Adiciona preenchimento */
-  cursor: pointer; /* Muda o cursor para pointer */
-  width: 80%; /* Faz o botão ocupar toda a largura disponível */
-  font-size: 18px; /* Ajusta o tamanho da fonte */
-  margin-top: 10px; /* Adiciona espaço acima do botão */
-}
-
-.filters {
-  background-color: #F9F9FD;
-  font-size: 20px;
+.product-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  background-color: #fff;
+}
+
+.product-images {
+  position: relative;
+}
+
+.product-image {
+  max-width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.image-navigation {
+  margin-top: 10px;
   display: flex;
-  flex-direction: column;
-  justify-content: start;
-  padding: 25px 50px;
+  justify-content: center;
+  gap: 10px;
 }
 
-.filters .button {
-  width: 80px;
-  margin-top: 20px;
+.product-details {
+  margin-top: 10px;
 }
 
-.products {
-  margin: 0 100px; /* Margem para desktop */
+.buy-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.product-item {
-  border-bottom: 2px solid #999;
-  padding: 15px 0; /* Adiciona espaçamento interno */
+.buy-button:hover {
+  background-color: #218838;
 }
 
-/* Estilos para dispositivos móveis */
-@media (max-width: 768px) {
-  .filters {
-    padding: 15px 20px; /* Reduz o preenchimento */
-  }
 
-  .products {
-    margin: 0 20px; /* Reduz a margem lateral */
-  }
+.banner-rotator {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .product-item {
-    padding: 10px 0; /* Adiciona espaçamento interno */
-    border-bottom: 1px solid #999; /* Borda mais fina */
-  }
+.banner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: opacity 0.5s ease-in-out;
+}
 
-  button.cta {
-    font-size: 16px; /* Reduz o tamanho da fonte */
-    padding: 8px 15px; /* Ajusta o preenchimento do botão */
-    width: 50%; /* Faz o botão ocupar toda a largura */
-  }
+.banner.active {
+  display: flex;
+  opacity: 1;
+}
 
-  .filters .button {
-    width: 50%; /* Botão ocupa toda a largura */
-    margin-top: 10px; /* Ajusta a margem superior */
-  }
+.banner-content {
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+}
+
+.cta-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.cta-button:hover {
+  background-color: #ff4c3b;
+}
+
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 2;
+}
+
+.prev-button {
+  left: 10px;
+}
+
+.next-button {
+  right: 10px;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }

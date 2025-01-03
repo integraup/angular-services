@@ -1,9 +1,65 @@
-<div class="container">
-  <ul class="products">
-    <li class="product-item" *ngFor="let product of products | async">
-      <bot-product-details [product]="product">
-        <button class="cta" (click)="addToCart(product)">Comprar</button>
-      </bot-product-details>
-    </li>
-  </ul>
+
+<bot-banner-rotations></bot-banner-rotations>
+<div class="catalog-container">
+  <div class="side-menu">
+    <h3>Categorias</h3>
+    <ul>
+      <li
+        *ngFor="let category of categories"
+        [class.active]="selectedCategory === category.name"
+        (click)="selectCategory(category.name)"
+      >
+        {{ category.name }}
+      </li>
+      <li
+        [class.active]="selectedCategory === 'all'"
+        (click)="selectCategory('all')"
+      >
+        Todas
+      </li>
+    </ul>
+  </div>
+
+  <div class="content-area">
+    <div class="products-grid">
+      <div
+        class="product-card"
+        *ngFor="let product of filterProducts()"
+      >
+        <div class="product-images">
+          <div *ngIf="hasProductImages(product.id)">
+            <img
+              [src]="getProductImage(product.id)"
+              alt="{{ product.name }}"
+              class="product-image"
+            />
+          </div>
+          <div class="image-navigation">
+            <button
+              (click)="changeImage(product.id, 'previous')"
+              [disabled]="!productImages[product.id]?.urls?.length"
+            >
+              ◀
+            </button>
+            <button
+              (click)="changeImage(product.id, 'next')"
+              [disabled]="!productImages[product.id]?.urls?.length"
+            >
+              ▶
+            </button>
+          </div>
+        </div>
+        <div class="product-details">
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+          <p><strong>Preço:</strong> R$ {{ product.price | number: '1.2-2' }}</p>
+          <p><strong>Desconto:</strong> {{ product.discount }}%</p>
+          <p><strong>Categoria:</strong> {{ product.category }}</p>
+          <button class="buy-button" (click)="addToCart(product)">
+            Comprar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,0 +1,112 @@
+<div class="product-container">
+  <h1>Gerenciar Produtos</h1>
+
+  <!-- Formulário para criar ou editar -->
+  <form (ngSubmit)="isEditing ? updateProduct() : addProduct()" class="product-form">
+    <div style="flex-direction: column;">
+    <div>
+      <label for="name">Nome do Produto:</label>
+      <input
+        id="name"
+        [(ngModel)]="isEditing ? selectedProduct.name : newProduct.name"
+        name="name"
+        placeholder="Nome"
+        required
+      />
+    </div>
+    <div>
+      <label for="description">Descrição:</label>
+      <input
+        id="description"
+        [(ngModel)]="isEditing ? selectedProduct.description : newProduct.description"
+        name="description"
+        placeholder="Descrição"
+        required
+      />
+    </div>
+    <div>
+      <label for="category">Categoria:</label>
+      <select
+        id="category"
+        [(ngModel)]="isEditing ? selectedProduct.category : newProduct.category"
+        name="category"
+        required
+      >
+        <option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</option>
+      </select>
+    </div>
+    <div>
+      <label for="price">Preço:</label>
+      <input
+        id="price"
+        type="number"
+        [(ngModel)]="isEditing ? selectedProduct.price : newProduct.price"
+        name="price"
+        placeholder="Preço"
+        required
+      />
+    </div>
+    <div>
+      <label for="discount">Desconto:</label>
+      <input
+        id="discount"
+        type="number"
+        [(ngModel)]="isEditing ? selectedProduct.discount : newProduct.discount"
+        name="discount"
+        placeholder="Desconto"
+      />
+    </div>
+    <div>
+      <label for="images">Imagens do Produto (Máx: 5):</label>
+      <input
+        id="images"
+        type="file"
+        multiple
+        (change)="onFileSelected($event)"
+        accept="image/*"
+      />
+    </div>
+  </div>
+  <div style="flex-direction: row;">
+    <div *ngFor="let img of selectedImagesPreview; let i = index"  class="image-preview">
+     <div>
+      <span class="delete-icon" (click)="deleteImage(i, img)">✖</span>
+      <img   [src]="img" class="preview-img" />
+
+    </div>
+    </div>
+
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">{{ isEditing ? 'Adicionar' : 'Salvar'  }}</button>
+    <button *ngIf="isEditing" type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancelar</button>
+  </div>
+  </form>
+
+  <!-- Lista de produtos -->
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Categoria</th>
+        <th>Preço</th>
+        <th>Desconto</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.category }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.discount }}</td>
+        <td>
+          <button class="btn btn-edit" (click)="editProduct(product)">Editar</button>
+          <button class="btn btn-delete" (click)="deleteProduct(product.id!)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
