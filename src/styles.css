@@ -2,11 +2,23 @@
   color: red;
 }
 
+/* Resetando margens, bordas e preenchimentos */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+/* Definir fonte e altura padrão para garantir consistência */
 body {
-  background-color: #fff;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  color: #444;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  height: 100%;
+  width: 100%;
+  background-color: #f8f9fa;
 }
 
 a {

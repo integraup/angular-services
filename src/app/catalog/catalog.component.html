@@ -1,6 +1,6 @@
-
 <bot-banner-rotations></bot-banner-rotations>
 <div class="catalog-container">
+
   <div class="side-menu">
     <h3>Categorias</h3>
     <ul>
@@ -20,42 +20,71 @@
     </ul>
   </div>
 
-  <div class="content-area">
+  <div class="content-area"><h3>Catálogo</h3>
     <div class="products-grid">
+
       <div
         class="product-card"
-        *ngFor="let product of filterProducts()"
+        *ngFor="let combinedItem of filterCombinedData()"
       >
         <div class="product-images">
-          <div *ngIf="hasProductImages(product.id)">
+          <div *ngIf="hasProductImages(combinedItem.product.id)">
             <img
-              [src]="getProductImage(product.id)"
-              alt="{{ product.name }}"
+              [src]="getProductImage(combinedItem.product.id)"
+              alt="{{ combinedItem.product.name }}"
               class="product-image"
             />
           </div>
           <div class="image-navigation">
             <button
-              (click)="changeImage(product.id, 'previous')"
-              [disabled]="!productImages[product.id]?.urls?.length"
+              (click)="changeImage(combinedItem.product.id, 'previous')"
+              [disabled]="!productImages[combinedItem.product.id]?.urls?.length"
             >
               ◀
             </button>
             <button
-              (click)="changeImage(product.id, 'next')"
-              [disabled]="!productImages[product.id]?.urls?.length"
+              (click)="changeImage(combinedItem.product.id, 'next')"
+              [disabled]="!productImages[combinedItem.product.id]?.urls?.length"
             >
               ▶
             </button>
           </div>
         </div>
         <div class="product-details">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
-          <p><strong>Preço:</strong> R$ {{ product.price | number: '1.2-2' }}</p>
-          <p><strong>Desconto:</strong> {{ product.discount }}%</p>
-          <p><strong>Categoria:</strong> {{ product.category }}</p>
-          <button class="buy-button" (click)="addToCart(product)">
+          <h3>{{ combinedItem.product.name }}</h3>
+          <!-- <p>{{ combinedItem.product.description }}</p> -->
+          <p class="discount">
+            <strong>Dê:</strong> R$
+           <small style="margin-bottom: 23px;  text-decoration: line-through;">{{ combinedItem.product.price | number: '1.2-2' }}</small><br>
+            <strong>Pôr:</strong>
+           {{ (combinedItem.product.price * (1 - combinedItem.product.discount)) | currency: 'BRL':'symbol' }}
+          </p>
+          <p>
+            <strong>Desconto:</strong>
+            {{ (combinedItem.product.discount * 100) | number: '1.0-0' }}%
+          </p>
+
+
+          <!-- <p>
+            <strong>Categoria:</strong>
+            {{ combinedItem.product.category }}
+          </p> -->
+          <!-- <p>
+            <strong>Vendedor:</strong>
+            {{ combinedItem.account?.displayName || 'N/A' }}
+          </p> -->
+
+          <div class="seller-info">
+            <p><strong>Vendedor:</strong><small>{{ combinedItem.account.company.name }}</small></p>
+
+          </div>
+
+          <!-- <pre>{{ combinedItem.account | json }}</pre> -->
+
+          <button
+            class="buy-button"
+            (click)="addToCart(combinedItem)"
+          >
             Comprar
           </button>
         </div>

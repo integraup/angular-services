@@ -5,14 +5,17 @@ import { Injectable } from "@angular/core";
 import { catchError, from, Observable, switchMap, throwError } from "rxjs";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { environment } from "src/environments/environment";
 @Injectable({ providedIn: "root" })
 export class ProductService {
   private readonly maxImageWidth = 800; // Máximo em pixels
   private readonly maxImageHeight = 800;
-  private baseUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app';
+  private readonly apiUrl = environment.apiUrl;
 
   private auth = getAuth(this.firebaseApp);
-  private readonly apiUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app/get-credentials';
+  private readonly apiUrlCredencial = '${apiUrl}/get-credentials';
+
+
   credentials: any;
   constructor(private httpClient: HttpClient, private firebaseApp: FirebaseApp) {
 
@@ -24,7 +27,7 @@ export class ProductService {
   }
 
   getCredentials(): Observable<any> {
-    return this.httpClient.get<any>(this.apiUrl);
+    return this.httpClient.get<any>(this.apiUrlCredencial);
   }
 
  downloadFileFromStorage(productId: string, fileName: string): Promise<string> {
@@ -36,7 +39,6 @@ export class ProductService {
     // Obtenha a URL de download
     return getDownloadURL(ref(storage, filePath))
       .then((url) => {
-        // console.log('URL do arquivo:', url);
         return url;
       })
       .catch((error) => {
@@ -47,30 +49,22 @@ export class ProductService {
 
   // GET: Listar todas as categorias
   getProducts(emailSalles: string): Observable<Product[]> {
-    return this.getCredentials().pipe(
-      catchError((error) => {
-        console.error('Erro ao obter credenciais:', error);
-        return throwError(() => new Error('Erro ao obter credenciais.'));
-      }),
-      switchMap((credentials) => {
-        const headers = new HttpHeaders({
-          'Content-Type': 'application/json'
-        });
-        const params = new HttpParams().set('emailSalles', emailSalles);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const params = new HttpParams().set('emailSalles', emailSalles);
 
-        return this.httpClient.get<Product[]>(`${this.baseUrl}/products`, { params, headers }).pipe(
-          catchError((error) => {
-            console.error('Erro ao listar categorias:', error);
-            return throwError(error);
-          })
-        );
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/products`, { params, headers }).pipe(
+      catchError((error) => {
+        console.error('Erro ao listar categorias:', error);
+        return throwError(error);
       })
     );
   }
 
 
   getProductsByEmail(email: string): Observable<Product[]> {
-    return this.httpClient.get<Product[]>(`${this.baseUrl}/get-products-by-email?email=${email}`).pipe(
+    return this.httpClient.get<Product[]>(`${this.apiUrl}/get-products-by-email?email=${email}`).pipe(
       catchError(error => {
         console.error('Erro ao buscar produtos por email:', error);
         return throwError(error);
@@ -82,7 +76,7 @@ export class ProductService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.httpClient.post<Product>(`${this.baseUrl}/products`, product, { headers: headers }).pipe(
+    return this.httpClient.post<Product>(`${this.apiUrl}/products`, product, { headers: headers }).pipe(
       catchError(error => {
         console.error('Erro ao criar produto:', error);
         return throwError(error);
@@ -94,7 +88,7 @@ export class ProductService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.httpClient.put<Product>(`${this.baseUrl}/products/${productId}`, updatedProduct, { headers: headers }).pipe(
+    return this.httpClient.put<Product>(`${this.apiUrl}/products/${productId}`, updatedProduct, { headers: headers }).pipe(
       catchError(error => {
         console.error('Erro ao atualizar produto:', error);
         return throwError(error);
@@ -106,7 +100,7 @@ export class ProductService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.httpClient.delete<{ message: string }>(`${this.baseUrl}/products/${productId}`, { headers: headers }).pipe(
+    return this.httpClient.delete<{ message: string }>(`${this.apiUrl}/products/${productId}`, { headers: headers }).pipe(
       catchError(error => {
         console.error('Erro ao excluir produto:', error);
         return throwError(error);

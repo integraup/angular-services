@@ -1,0 +1,100 @@
+/* Garantir que o corpo e html ocupem toda a altura */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Organiza o conteúdo de cima para baixo */
+}
+
+/* Container do conteúdo central que expande para preencher o espaço */
+main {
+  flex-grow: 1; /* Faz o conteúdo crescer para preencher o espaço disponível */
+}
+
+/* Estilo do footer */
+footer {
+  background-color: #f8f9fa;
+  padding: 20px 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  border-top: 1px solid #ddd;
+  margin-top: auto; /* Garante que o footer fique colado ao fundo */
+}
+
+/* Layout do conteúdo do footer */
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.security-info,
+.quick-links,
+.contact-social {
+  flex: 1;
+  margin: 0 15px;
+}
+
+.security-info img {
+  max-width: 150px;
+  margin-bottom: 10px;
+}
+
+.security-info p {
+  font-size: 14px;
+  color: #666;
+}
+
+.quick-links ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.quick-links ul li {
+  margin: 5px 0;
+}
+
+.quick-links a {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 14px;
+}
+
+.quick-links a:hover {
+  text-decoration: underline;
+}
+
+.contact-social ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contact-social ul li {
+  display: inline;
+  margin-right: 15px;
+}
+
+.contact-social ul li a {
+  color: #007bff;
+  font-size: 18px;
+}
+
+.contact-social p {
+  font-size: 14px;
+  color: #666;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #999;
+}
+.space{
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+  height: 100% !important; /* Faz o contêiner ocupar 100% da altura da tela */
+}

@@ -1,3 +1,39 @@
 <bot-site-header></bot-site-header>
 <app-notification></app-notification>
-<router-outlet></router-outlet>
+
+<!-- Container principal que vai expandir para ocupar o espaço restante -->
+<main class="space">
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <div class="footer-content">
+    <div class="security-info">
+      <img src="/assets/images/logo.png" alt="PagBank Logo" />
+      <p><strong>Pagamento seguro com PagBank</strong></p>
+      <p>Transações protegidas por tecnologia de criptografia SSL.</p>
+    </div>
+
+    <div class="quick-links">
+      <ul>
+        <li><a href="/sobre-nos">Sobre Nós</a></li>
+        <li><a href="/politica-de-privacidade">Política de Privacidade</a></li>
+        <li><a href="/termos-de-uso">Termos de Uso</a></li>
+        <li><a href="/atendimento">Atendimento ao Cliente</a></li>
+      </ul>
+    </div>
+
+    <div class="contact-social">
+      <ul class="social-icons">
+        <li><a href="https://facebook.com"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="https://instagram.com"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://twitter.com"><i class="fab fa-twitter"></i></a></li>
+      </ul>
+      <p>Entre em contato pelo mercadopag&#64;exemplo.com</p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2025 MercadoPag - Todos os direitos reservados.</p>
+  </div>
+</footer>

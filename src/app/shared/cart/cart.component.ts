@@ -17,7 +17,6 @@ export class CartComponent implements OnInit {
 
   get cartItems() {
     var item = this.cardService.cart();
-    console.log(item);
     return item;
   }
 
@@ -25,17 +24,17 @@ export class CartComponent implements OnInit {
     return this.cardService.cartTotal();
   }
 
-  removeFromCart(product: Product) {
-    this.cardService.remove(product);
+  removeFromCart(combinedItem: { product: Product; account: any }) {
+    this.cardService.remove(combinedItem);
   }
 
   proceedToCheckout() {
     this.router.navigate(['/checkout'], { state: { cart: this.cartItems, total: this.cartTotal } });
   }
 
-  getImageUrl(product: Product): string {
-    if (product.imageUrls && product.imageUrls.length > 0) {
-      return product.imageUrls[0]; // Usa a primeira imagem do produto
+  getImageUrl(combinedItem: { product: Product; account: any; imageUrls: string[] }): string {
+    if (combinedItem.product.imageUrls && combinedItem.product.imageUrls.length > 0) {
+      return combinedItem.product.imageUrls[0]; // Usa a primeira imagem do produto
     }
     return '/assets/placeholder.png'; // Caminho para imagem padrão
   }

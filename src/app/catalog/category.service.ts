@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, switchMap } from "rxjs/operators";
+import { environment } from "src/environments/environment";
 
 
 export interface Category {
@@ -15,8 +16,7 @@ export interface Category {
   providedIn: 'root'
 })
 export class CategoryService {
-  private baseCategoryUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app';
-  private readonly apiUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app/get-credentials';
+  private readonly apiUrl = environment.apiUrl;
   credentials: any;
 
   constructor(private httpClient: HttpClient) {
@@ -45,7 +45,7 @@ export class CategoryService {
     });
     const params = new HttpParams().set('emailSalles', emailSalles);
 
-    return this.httpClient.get<Category[]>(`${this.baseCategoryUrl}/categories`, { params, headers }).pipe(
+    return this.httpClient.get<Category[]>(`${this.apiUrl}/categories`, { params, headers }).pipe(
       catchError((error) => {
         console.error('Erro ao listar categorias:', error);
         return throwError(error);
@@ -59,7 +59,7 @@ createCategory(category: Category): Observable<Category> {
     'Content-Type': 'application/json'
   });
   return this.httpClient
-    .post<Category>(`${this.baseCategoryUrl}/categories`, category, {
+    .post<Category>(`${this.apiUrl}/categories`, category, {
       headers: headers,
     })
     .pipe(
@@ -76,7 +76,7 @@ createCategory(category: Category): Observable<Category> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.httpClient.put<Category>(`${this.baseCategoryUrl}/categories/${id}`, category, { headers: headers }).pipe(
+    return this.httpClient.put<Category>(`${this.apiUrl}/categories/${id}`, category, { headers: headers }).pipe(
       catchError(error => {
         console.error('Erro ao atualizar categoria:', error);
         return throwError(error);
@@ -89,7 +89,7 @@ createCategory(category: Category): Observable<Category> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.httpClient.delete<{ message: string }>(`${this.baseCategoryUrl}/categories/${id}`, { headers: headers }).pipe(
+    return this.httpClient.delete<{ message: string }>(`${this.apiUrl}/categories/${id}`, { headers: headers }).pipe(
       catchError(error => {
         console.error('Erro ao excluir categoria:', error);
         return throwError(error);

@@ -1,3 +1,4 @@
+<!-- componente.html -->
 <div class="container">
   <h1 class="header">Carrinho de Compras</h1>
 
@@ -5,28 +6,29 @@
     Não há itens no carrinho.
   </div>
   <ul class="cart" *ngIf="cartItems.length > 0">
-    <li class="cart-item" *ngFor="let product of cartItems">
+    <li class="cart-item" *ngFor="let combinedItem of cartItems">
       <div class="product">
         <div class="product-details">
           <img
-            [src]="product.imageUrls[0]"
-            [alt]="product.name"
+            [src]="combinedItem.imageUrls[0]"
+            [alt]="combinedItem.product.name"
             class="product-image"
           />
           <div class="product-info">
-            <div class="name">{{ product.name }}</div>
-            <div class="description">{{ product.description }}</div>
-            <div class="category">Categoria: {{ product.category }}</div>
+            <div class="name">{{ combinedItem.product.name }}</div>
+            <div class="description">{{ combinedItem.product.description }}</div>
+            <div class="category">Categoria: {{ combinedItem.product.category }}</div>
           </div>
         </div>
         <div class="price">
-          <div [ngClass]="{ strikethrough: product.discount > 0 }">
-            {{ product.price | currency: 'BRL':'symbol' }}
+          <div  class="discount" [ngClass]="{ strikethrough: combinedItem.product.discount > 0 }">
+            {{ combinedItem.product.price | currency: 'BRL':'symbol' }}
           </div>
-          <div *ngIf="product.discount > 0" class="discount">
-            {{ product.price * (1 - product.discount) | currency: 'BRL':'symbol' }}
+          <div *ngIf="combinedItem.product.discount > 0" class="discount">
+            <!-- <pre>{{ combinedItem.product | json }}</pre> -->
+            {{ (combinedItem.product.price * (1 - combinedItem.product.discount)) | currency: 'BRL':'symbol' }}
           </div>
-          <button (click)="removeFromCart(product)">Remover</button>
+          <button (click)="removeFromCart(combinedItem)">Remover</button>
         </div>
       </div>
     </li>

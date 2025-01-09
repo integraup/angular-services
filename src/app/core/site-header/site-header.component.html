@@ -13,10 +13,10 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="!(currentUser$ | async)">
-      <div class="login">
+    <ng-container *ngIf="!(currentAccount$ | async)">
+     <div class="login">
         <a routerLink="/login" routerLinkActive="active">
-          <i class="fas fa-sign-in-alt"></i> <!-- Ícone de Login -->
+          <label><small>Olá, faça seu login</small></label><i class="fas fa-sign-in-alt"></i> <!-- Ícone de Login -->
         </a>
       </div>
       <div class="register">
@@ -26,17 +26,22 @@
       </div>
     </ng-container>
 
-    <ng-container *ngIf="currentUser$ | async as user">
+    <ng-container *ngIf="currentAccount$ | async as user">
       <!-- Link de Pedidos visível apenas se o usuário estiver logado -->
       <!-- <a routerLink="/squad/bot-order" routerLinkActive="active">Pedidos</a> -->
-      <a routerLink="/adm" routerLinkActive="active">
+      <a *ngIf="user.accountData.rules.isAdmin"  routerLink="/adm" routerLinkActive="active">
         <i class="fas fa-cogs"></i> <!-- Ícone de Cadastro -->
       </a>
-      <span>
-        <a routerLink="/squad/bot-itemAccount" routerLinkActive="active">{{ user.email }}</a>
+ <!-- <pre>{{ user | json }}</pre> -->
+      <a *ngIf="!user.accountData.rules.isAdmin"  routerLink="/user" routerLinkActive="active">
+        <i class="fas fa-user-cog"></i> Sua conta
+      </a>
+
+      <span style="margin-left: 30px;">
+        Olá, <a routerLink="/squad/bot-itemAccount" routerLinkActive="active">{{ user.accountData.person.name }}</a>
       </span>
       <a (click)="logout()">
-        <i class="fas fa-sign-out-alt"></i> <!-- Ícone de Logout -->
+       <i class="fas fa-sign-out-alt"></i> <!-- Ícone de Logout -->
       </a>
     </ng-container>
   </div>

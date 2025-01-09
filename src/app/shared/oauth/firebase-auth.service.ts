@@ -15,6 +15,7 @@ import type {
 import { FirebaseApp } from '@angular/fire/app';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -26,27 +27,18 @@ export class FirebaseAuthService {
   auth: Auth;
   private userData: any;
   firebaseUs: FirebaseUser;
-  private readonly apiUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app';
+  private readonly apiUrl = environment.apiUrl;
   private currentUserSubject: BehaviorSubject<UserData | null> = new BehaviorSubject<UserData | null>(null);
   private currentAccountSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public currentAccount$: Observable<UserData | null> = this.currentUserSubject.asObservable();
   public currentUser$: Observable<UserData | null> = this.currentUserSubject.asObservable();
   getFirebase() {
     return getAuth();
   }
 
-
-
   constructor(private afApp: FirebaseApp, private notificationService: NotificationService, private httpClient: HttpClient) {
     this.auth = getAuth(this.afApp);
-    //this.checkAuthState();
   }
-
-  // private checkAuthState() {
-  //   onAuthStateChanged(this.auth, (user) => {
-  //     this.currentUserSubject.next(user ? user : null);
-  //   });
-  // }
-
 
   setUserData(data: any): void {
     this.userData = data;
@@ -58,47 +50,35 @@ export class FirebaseAuthService {
 
   async login(email: string, password: string): Promise<any> {
     try {
-      // Realiza o login com o Firebase Authentication
       const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
-
-      // Atualiza o estado atual do usuário
-
-
-      // Configura os cabeçalhos e parâmetros da requisição HTTP
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
       });
       const params = new HttpParams().set('email', email);
-
-      // Faz a requisição para buscar os dados da conta
       return this.httpClient.get<any>(`${this.apiUrl}/accounts-api`, { params, headers }).pipe(
         switchMap((account: any) => {
-          // Combina as informações da autenticação e da conta recuperada
           const userData = {
             uid: userCredential.user.uid,
             email: userCredential.user.email,
             displayName: userCredential.user.displayName,
             photoURL: userCredential.user.photoURL,
             emailVerified: userCredential.user.emailVerified,
-            accountData: account, // Dados da conta vindos da API
+            accountData: account,
           };
-          this.currentUserSubject.next(userData);
-          // Notifica o sucesso
-          this.notificationService.notify(NotificationType.Success, 'Login realizado com sucesso!');
 
-          // Retorna o objeto com os dados combinados como Observable
-          return of(userData);  // Usa 'of' para retornar o valor como Observable
+          this.currentUserSubject.next(userData);
+          this.currentAccountSubject.next(account);
+          this.notificationService.notify(NotificationType.Success, 'Login realizado com sucesso!');
+          return of(userData);
         }),
         catchError((error) => {
           console.error('Erro ao fazer login:', error);
           this.notificationService.notify(NotificationType.Error, 'Erro ao fazer login. Verifique suas credenciais.');
           throw error;
         })
-      ).toPromise(); // Retorna como Promise para o método assíncrono
+      ).toPromise();
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-
-      // Notifica o erro
       this.notificationService.notify(NotificationType.Error, 'Erro ao fazer login. Verifique suas credenciais.');
 
       throw error;
@@ -112,15 +92,9 @@ export class FirebaseAuthService {
     const params = new HttpParams().set('email', email);
 
     try {
-      // Faz a requisição para buscar os dados da conta
       const account = await firstValueFrom(this.httpClient.get<any>(`${this.apiUrl}/accounts-api`, { params, headers }));
 
       this.currentAccountSubject.next(account);
-
-      // Notifica o sucesso do login
-      this.notificationService.notify(NotificationType.Success, 'Login realizado com sucesso!');
-
-      // Retorna os dados do usuário
       return account;
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -156,17 +130,12 @@ export class FirebaseAuthService {
   async resetPassword(email: string): Promise<void> {
     try {
       await sendPasswordResetEmail(this.auth, email);
-      console.log('Email de redefinição de senha enviado com sucesso.');
     } catch (error) {
       console.error('Erro ao enviar email de redefinição de senha:', error);
       throw error;
     }
   }
-
-
-
 }
-
 
 export interface UserData {
   uid: string;

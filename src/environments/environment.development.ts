@@ -1,14 +1,15 @@
 export const environment = {
   production: false,
+  apiUrl: 'http://127.0.0.1:5003/limp-2f1d4/southamerica-east1/app',
   firebase: {
-    apiKey: "AIzaSyBkxT7tPZ-MTyinPOTfAYbiGfRqFafCImg",
-    authDomain: "limp-2f1d4.firebaseapp.com",
+    apiKey: "AIzaSyAcPgb2G-COGTP7IlNGm0vm_lX8-LqMtcQ",
+    authDomain: "tma-shop-eee13.firebaseapp.com",
+    projectId: "tma-shop-eee13",
     databaseURL: "https://limp-2f1d4-default-rtdb.firebaseio.com",
-    projectId: "limp-2f1d4",
-    storageBucket: "limp-2f1d4.appspot.com",
-    messagingSenderId: "122896672046",
-    appId: "1:122896672046:web:4e0bf824112f7921e906bf",
-    measurementId: "G-X96TEQ7YBW"
+    storageBucket: "tma-shop-eee13.firebasestorage.app",
+    messagingSenderId: "177745585291",
+    appId: "1:177745585291:web:599c34740570a9b1aaa08e",
+    measurementId: "G-L3BW0WXDHH"
   },
   pagbank: {
     name: "E-COMMERCE PAGBANG",

@@ -57,7 +57,6 @@ export class ProductComponent implements OnInit {
     if (this.selectedImages.length === 0) return;
     this.productService.uploadImages(this.selectedImages, product).subscribe({
       next: (imageUrls: any) => {
-        console.log('Imagens enviadas com sucesso:', imageUrls);
         this.selectedImagesPreview = [];
         this.notificationService.notify(NotificationType.Success,'Imagens enviadas com sucesso!');
       if (this.isEditing) {
@@ -99,7 +98,6 @@ export class ProductComponent implements OnInit {
 
     this.productService.uploadImages(this.selectedImages,  this.selectedProduct).subscribe({
       next: (imageUrls: any) => {
-        console.log('ofFIleSelected imageUrls');
         this.updateProduct();
 
       },
@@ -126,8 +124,6 @@ export class ProductComponent implements OnInit {
 
     this.newProduct.emailSalles = this.emailSalles;
 
-    console.log(this.selectedImages);
-
     if (!this.newProduct.imageUrls) {
       this.newProduct.imageUrls = [];
     }
@@ -139,8 +135,6 @@ export class ProductComponent implements OnInit {
 
     this.productService.createProduct(this.newProduct).subscribe({
       next: (product: any) => {
-        console.log("this.products");
-        console.log(this.products);
         if(this.products === null){
           this.products = [];
         }
@@ -192,8 +186,6 @@ export class ProductComponent implements OnInit {
 
   updateProduct(): void {
       if (this.selectedProduct.id && this.selectedProduct.id !== "0") {
-        console.log("this.selectedProduct.imageUrls");
-        console.log(this.selectedProduct.imageUrls);
         this.productService.updateProduct(this.selectedProduct.id.toString(), this.selectedProduct).subscribe({
         next: (updatedProduct: any) => {
           const index = this.products.findIndex((p) => p.id === updatedProduct.id);
@@ -213,8 +205,6 @@ export class ProductComponent implements OnInit {
   deleteImage(index: number, img: string): void {
     this.selectedImagesPreview.splice(index, 1);
     this.selectedProduct.imageUrls.splice(index, 1);
-    console.log(this.selectedProduct.imageUrls);
-    console.log(this.selectedImagesPreview);
 
     this.productService.updateProduct(this.selectedProduct.id.toString(), this.selectedProduct).subscribe({
       next: (updatedProduct: any) => {

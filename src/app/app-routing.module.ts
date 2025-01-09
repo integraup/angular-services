@@ -13,22 +13,23 @@ import { AuthAdmGuard } from '@shared/oauth/authAdm.guard';
 @Injectable({providedIn: 'root'})
 export class AdminGuard {
   canActivate() {
-    console.log('teste active can');
     return true;
   }
 }
 
 const routes: Routes = [
-  { path: 'catalog', component: CatalogComponent, title: "Catalog - PAGPAG - Loja Online", },
-  { path: 'search', component: SearchComponent, title: "Search - PAGPAG - Loja Online" },
-  { path: 'cart', component: CartComponent, title: "Cart - PAGPAG - Loja Online" },
-  { path: 'checkout', component: CheckoutComponent, canActivate: mapToCanActivate([AuthGuard]), title: "checkout - PAGPAG - Loja Online" },
-  { path: 'login', component: LoginComponent, title: "Acesso - PAGPAG - Loja Online" },
+  { path: 'catalog', component: CatalogComponent, title: "Catalog - MercadoPag - Loja Online", },
+  { path: 'search', component: SearchComponent, title: "Search - MercadoPag - Loja Online" },
+  { path: 'cart', component: CartComponent, title: "Cart - MercadoPag - Loja Online" },
+  { path: 'checkout', component: CheckoutComponent, canActivate: mapToCanActivate([AuthGuard]), title: "checkout - MercadoPag - Loja Online" },
+  { path: 'login', component: LoginComponent, title: "Acesso - MercadoPag - Loja Online" },
 
-  { path: 'recover', component: RecoverPasswordComponent, title: "Rcover - PAGPAG - Loja Online" },
+
+  { path: 'recover', component: RecoverPasswordComponent, title: "Rcover - MercadoPag - Loja Online" },
 
   { path: 'connect_salles', component: ReceiveComponent, title: "Autorização de uso da plataforma" },
   { path: 'squad', loadChildren: () => import('./squad/squad.module').then(m => m.SquadModule) },
+  { path: 'user', loadChildren: () => import('./user-area/userarea.module').then(m => m.UserAreaModule), canActivate: mapToCanActivate([AuthGuard]), title: "checkout - MercadoPag - Loja Online"  },
   { path: 'adm', loadChildren: () => import('./adm-area/adm-area.module').then(m => m.AdmAreaModule), canActivate: mapToCanActivate([AuthAdmGuard]), },
   { path: '', redirectTo: '/catalog', pathMatch: 'full' },
 ];

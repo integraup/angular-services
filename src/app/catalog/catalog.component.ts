@@ -16,7 +16,7 @@ export class CatalogComponent implements OnInit {
   emailSalles: string = '';
   productImages: { [id: string]: { urls: string[]; currentIndex: number } } = {};
   selectedCategory: string; // Para filtrar produtos por categoria
-
+  combinedData: Array<{ product: any; account: any }> = [];
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
@@ -31,9 +31,6 @@ export class CatalogComponent implements OnInit {
     this.firebaseAuthService.currentUser$.subscribe((user) => {
       this.selectedCategory = "all";
       if (user?.email) {
-        console.log("user");
-        console.log(user);
-
         this.emailSalles = user.email;
         this.loadProducts("");
         this.loadCategories("");
@@ -51,9 +48,11 @@ export class CatalogComponent implements OnInit {
     this.productService.getProducts(emailSalles).subscribe((products) => {
       this.products = products;
       this.products.forEach((product) => {
+
+
+        this.firebaseAuthService.fetchAccountDataAndLogin(product.emailSalles).then((account) => {
         // Inicializa productImages com um estado válido.
         this.productImages[product.id] = { urls: [], currentIndex: 0 };
-
         product.imageUrls.slice(0, 5).forEach((imagePath) => {
           this.productService
             .downloadFileFromStorage(product.id, imagePath)
@@ -63,6 +62,14 @@ export class CatalogComponent implements OnInit {
               }
             });
         });
+
+          const productData = {
+            product,
+            account,
+          };
+          this.combinedData.push(productData);
+        });
+
       });
     });
   }
@@ -90,12 +97,12 @@ export class CatalogComponent implements OnInit {
     );
   }
 
-  filterProducts(): Product[] {
+  filterCombinedData(): Array<{ product: any; account: any }> {
     if (this.selectedCategory === 'all') {
-      return this.products;
+      return this.combinedData;
     }
-    return this.products.filter(
-      (product) => product.category === this.selectedCategory
+    return this.combinedData.filter(
+      (combinedData) => combinedData.product.category === this.selectedCategory
     );
   }
 
@@ -114,10 +121,10 @@ export class CatalogComponent implements OnInit {
     }
   }
 
-  addToCart(product: Product): void {
+  addToCart(combinedItem: { product: Product; account: any }): void {
     const productWithImages = {
-      ...product,
-      imageUrls: this.productImages[product.id]?.urls || [], // Inclui as URLs carregadas
+      ...combinedItem,
+      imageUrls: this.productImages[combinedItem.product.id]?.urls || [], // Inclui as URLs carregadas
     };
     this.cartService.add(productWithImages);
   }

@@ -6,6 +6,7 @@ import { AccountService } from '@core/account.service';
 import { NotificationService, NotificationType } from '@core/notification.service';
 import { FirebaseAuthService } from '@shared/oauth/firebase-auth.service';
 import { environment } from 'src/environments/environment';
+import { CartService } from '@core/cart.service';
 declare var PagSeguro: any;
 
 @Component({
@@ -20,11 +21,16 @@ export class CheckoutComponent implements OnInit {
   cartItems: any[] = [];
   cartTotal: number = 0;
   accountData?: AccountData;
+  installmentOptions = Array.from({ length: 12 }, (_, i) => ({
+    value: i + 1,
+    label: `${i + 1}x`
+  }));
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private accountService: AccountService,
+    private cartService: CartService,
     private firebaseAuthService: FirebaseAuthService,
     private notificationService: NotificationService
   ) {
@@ -47,6 +53,7 @@ export class CheckoutComponent implements OnInit {
       postalCode: ['', Validators.required],
       cardHolderName: ['', Validators.required],
       cardNumber: ['', Validators.required],
+      installments: [1, Validators.required],
       expMonth: ['', Validators.required],
       expYear: ['', Validators.required],
       securityCode: ['', Validators.required],
@@ -110,7 +117,6 @@ export class CheckoutComponent implements OnInit {
         console.error('Erros ao encriptar o cartão:', errors);
         return null;
       }
-
       return encrypted;
     } else {
       console.error('PagSeguro SDK não está carregado.');
@@ -119,7 +125,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.checkoutForm.valid);
     if (this.checkoutForm.valid) {
       const encryptedCard = this.encryptCard();
 
@@ -138,10 +143,9 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    console.log(this.cartItems);
-// Montagem dos itens do carrinho
+
+
 const items = this.cartItems.map((item) => {
-  // Certifica que quantity é um número e maior que zero
   const quantity = Number(this.cartItems.length);
   if (isNaN(quantity) || quantity <= 0) {
     this.notificationService.notify(NotificationType.Error, `Quantidade inválida para o item ${item.name}.`);
@@ -149,10 +153,10 @@ const items = this.cartItems.map((item) => {
   }
 
   return {
-    reference_id: item.referenceId,  // Ajuste conforme a estrutura do item
-    name: item.name,
+    reference_id: item.product.referenceId,  // Ajuste conforme a estrutura do item
+    name: item.product.name,
     quantity: quantity, // Assegura que quantity é um número
-    unit_amount: item.price * 100 // Multiplicado por 100 para representar centavos
+    unit_amount: item.product.price * 100 // Multiplicado por 100 para representar centavos
   };
 }).filter(item => item !== null); // Remove itens inválidos
 
@@ -162,7 +166,19 @@ if (items.length === 0) {
   return;
 }
 
-      console.log(this.cartTotal);
+// Taxa fixa ou percentual do marketplace (em decimal)
+const marketplaceFeePercentage = 0.15; // 15%
+
+// Total do carrinho (em centavos)
+const totalCar = Math.round(this.cartService.cartTotal() * 100);
+
+// Calcular a comissão do marketplace (em centavos)
+const marketplaceFee = Math.round(totalCar * marketplaceFeePercentage);
+
+// Valor restante para o vendedor (em centavos)
+const vendorAmount = totalCar - marketplaceFee;
+
+
       const orderData = {
         customer: {
           name: this.checkoutForm.value.customerName,
@@ -195,12 +211,12 @@ if (items.length === 0) {
             reference_id: 'ref-001',
             description: 'Compra online',
             amount: {
-              value: Math.round(this.cartTotal * 100),
+              value: totalCar,
               currency: 'BRL'
             },
             payment_method: {
               type: 'CREDIT_CARD',
-              "installments": 1,
+              installments: this.checkoutForm.value.installments,
               capture: true,
               card: {
                 encrypted: encryptedCard,
@@ -210,27 +226,48 @@ if (items.length === 0) {
                 name: this.checkoutForm.value.cardHolderName,
                 tax_id: this.checkoutForm.value.customerTaxId
               }
+            },
+            splits: {
+                method: "FIXED",
+                receivers: [
+                    {
+                        account: {
+                            id: environment.pagbank.account_id
+                        },
+                        amount: {
+                            value: marketplaceFee
+                        }
+                    },
+                    {
+                        account: {
+                            id: this.cartItems[0].account.id
+                        },
+                        amount: {
+                            value: vendorAmount
+                        }
+                    }
+                ]
             }
           }
         ]
       };
 
       console.log(orderData);
-
       this.accountService.createOrder(orderData).subscribe(
         (response) => {
-          console.log('Ordem criada com sucesso:', response);
-          const resultA = this.accountService.saveOrder(orderData).subscribe(r => {
-            this.notificationService.notify(NotificationType.Success, 'Compra realizada com sucesso!');
-            this.router.navigate(['//squad/bot-order']);
-           });
+          this.notificationService.notify(NotificationType.Success, 'Compra realizada com sucesso!');
+           this.accountService.saveOrderData(response).subscribe(r => {
+             //this.router.navigate(['//squad/bot-order']);
+             this.checkoutForm.reset({
+              installments: 1,
+            });
+            });
         },
         (error) => {
-          console.log(error);
           console.error('Erro ao criar ordem:', error);
           this.notificationService.notify(NotificationType.Error, 'Erro ao processar a compra. Tente novamente.');
         }
-      );
+      )
     } else {
       this.notificationService.notify(NotificationType.Error, 'Por favor, preencha todos os campos corretamente.');
     }

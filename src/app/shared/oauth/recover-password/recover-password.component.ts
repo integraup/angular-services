@@ -20,7 +20,6 @@ export class RecoverPasswordComponent {
   }
 
   onSubmit() {
-    console.log(this.recoverForm.valid);
 
     if(this.recoverForm.valid){
       this.firebaseAuthService.resetPassword(this.recoverForm.get('email')?.value).then(r =>

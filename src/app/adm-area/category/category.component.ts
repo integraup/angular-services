@@ -58,7 +58,6 @@ export class CategoryComponent {
       next: (category) => {
         this.categories.push(category); // Adicionar a nova categoria à lista
         this.newCategory = { name: '', description: '', emailSalles: '' }; // Reset do formulário
-        console.log('Categoria adicionada com sucesso:', category);
       },
       error: (error) => {
         console.error('Erro ao adicionar categoria:', error);
@@ -70,14 +69,12 @@ export class CategoryComponent {
   // Selecionar categoria para edição
   editCategory(category: Category): void {
     this.selectedCategory = JSON.parse(JSON.stringify(category)); // Cópia profunda para edição
-    console.log('Categoria selecionada para edição:', this.selectedCategory);
     this.isEditing = true;
   }
 
   // Salvar alterações de uma categoria
   updateCategory(): void {
     if (this.selectedCategory && this.selectedCategory.id) {
-      console.log('Categoria selecionada para updateCategory:', this.selectedCategory);
       this.categoryService.updateCategory(this.selectedCategory.id, this.selectedCategory).subscribe(
         (updatedCategory) => {
           const index = this.categories.findIndex((c) => c.id === updatedCategory.id);

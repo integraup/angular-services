@@ -4,12 +4,13 @@ import { FirebaseAuthService } from '@shared/oauth/firebase-auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, switchMap, of } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  private readonly apiUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app';
+  private readonly apiUrl = environment.apiUrl;
   userData: any;
 
   constructor(

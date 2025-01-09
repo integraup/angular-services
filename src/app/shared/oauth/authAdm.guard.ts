@@ -5,12 +5,13 @@ import { FirebaseAuthService } from '@shared/oauth/firebase-auth.service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, switchMap, of } from 'rxjs';
 import { firstValueFrom } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthAdmGuard implements CanActivate {
-  private readonly apiUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app';
+  private readonly apiUrl = environment.apiUrl;
   userData: any;
   constructor(
     private authService: FirebaseAuthService,
@@ -45,7 +46,7 @@ export class AuthAdmGuard implements CanActivate {
             accountData: account, // Dados da conta recuperados via API
           };
           this.authService.setUserData(this.userData);
-          return of(this.userData.accountData.rules.idAdmin);
+          return of(this.userData.accountData.rules.isAdmin);
         }),
         catchError((error) => {
           console.error('Erro ao verificar permissões:', error);

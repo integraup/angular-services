@@ -1,0 +1,52 @@
+<div class="account-container">
+  <h1>Sua Conta</h1>
+
+  <div class="account-section">
+    <h2>Informações Pessoais</h2>
+    <p>Nome: {{ user.name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <!-- <button (click)="editProfile()">Editar Perfil</button> -->
+  </div>
+<div class="account-section">
+  <h2>Seus Pedidos</h2>
+  <ul class="order-list">
+    <li *ngFor="let order of orders" class="order-item">
+      <div class="order-header">
+        <span class="order-id">Pedido: <b>{{ order.id }}</b> </span>
+        <span class="order-status" [ngStyle]="{'background-color': order.statusColor}">
+          {{ order.statusMessage }}
+         </span><br>
+        <span class="order-date">Data: <b>{{ order.created_at | date: 'dd/MM/yyyy' }}</b></span>
+
+      </div>
+      <button class="details-button" (click)="order.showDetails = !order.showDetails">
+        {{ order.showDetails ? 'Ocultar Detalhes' : 'Ver Detalhes' }}
+      </button>
+      <div *ngIf="order.showDetails" class="order-details">
+        <p><strong>Cliente:</strong> {{ order.customer }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Endereço:</strong> {{ order.shippingAddress }}</p>
+        <ul class="items-list">
+          <li *ngFor="let item of order.items" class="item">
+            Produto: <strong>{{ item.name }}</strong> - Quantidade: <strong>{{ item.quantity }}</strong> - Preço: <strong>{{ item.price | currency }}</strong>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
+
+
+
+  <div class="account-section">
+    <h2>Endereços</h2>
+    <p>{{ address }}</p>
+    <!-- <button (click)="editAddress()">Editar Endereço</button> -->
+  </div>
+
+  <div class="account-section">
+    <h2>Configurações</h2>
+    <button (click)="changePassword()">Alterar Senha</button>
+    <button class="logout-button" (click)="logout()">Sair</button>
+  </div>
+</div>

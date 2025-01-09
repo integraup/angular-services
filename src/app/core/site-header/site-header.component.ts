@@ -10,14 +10,32 @@ import { Observable } from 'rxjs';
 })
 export class SiteHeaderComponent {
   currentUser$: Observable<UserData | null>;
+  currentAccount$: Observable<any | null>;
+  isAdmin: boolean;
+  userData: any;
 
   constructor(private firebaseAuthService: FirebaseAuthService) {
     // Assina o Observable para monitorar o estado do usuário
     this.currentUser$ = this.firebaseAuthService.currentUser$;
+
+    this.currentAccount$ = this.firebaseAuthService.currentAccount$;
+
+    // this.currentAccount$.subscribe(user => {
+    //   console.log(user.accountData.rules.isAdmin);
+    // })
+
+
+
+
   }
   logout(){
     this.firebaseAuthService.logout();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+
+
+
+  }
 }

@@ -11,6 +11,6 @@ export class ProductDetailsComponent {
 
   getImageUrl(product: Product) {
     if (!product) return '';
-    return '/assets/images/' + product. imageUrls[0];
+    return '/assets/images/' + product.imageUrls[0];
   }
 }

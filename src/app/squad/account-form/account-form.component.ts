@@ -83,15 +83,12 @@ export class AccountFormComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]]
     });
 
-
-    // Formulário de senha
     this.passwordForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       email: ['', Validators.required]
     });
 
-    // Validação para confirmação de senha
     this.passwordForm.get('confirmPassword')?.addValidators(this.matchPasswords());
   }
 
@@ -114,7 +111,6 @@ export class AccountFormComponent implements OnInit {
 
   get companyPhones() {
     var arr = this.accountForm.get('company.phones') as FormArray;
-    console.log(arr);
     return arr
   }
 
@@ -154,16 +150,13 @@ export class AccountFormComponent implements OnInit {
 
   addPersonPhone() {
     this.personPhones.push(this.createPhoneGroup());
-    console.log(this.personPhones);
   }
 
   addCompanyPhone() {
     this.companyPhones.push(this.createPhoneCompanyGroup());
-    console.log(this.companyPhones);
   }
 
   nextStep() {
-    console.log(this.passwordForm);
     if (this.passwordForm.valid) {
       this.isFirstStep = false;
     }
@@ -174,7 +167,6 @@ export class AccountFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.accountForm);
 
     if (!this.accountForm.get('region_code')?.value) {
         this.accountForm.patchValue({
@@ -206,7 +198,13 @@ export class AccountFormComponent implements OnInit {
                   }
 
                     this.accountService.saveAccount(result).subscribe(() => {
-                      this.firebaseAuthService.signUp(accountData.email, password, this.rules);
+                      this.firebaseAuthService.signUp(accountData.email, this.passwordForm.get('confirmPassword')?.value, this.rules);
+                      this.accountService.Register({userEmail: accountData.email, userName: accountData.person.name}).subscribe((r) => {
+
+                      });
+                      this.accountForm.reset({
+                        installments: 1,
+                      });
                     });
                 },
                 error: (error) => {
@@ -214,6 +212,7 @@ export class AccountFormComponent implements OnInit {
                         error.error_messages.forEach((msg: any) => {
                             const fullMessage = `Erro: ${msg.description}. ${msg.errors?.join(" ")}`;
                             this.notificationService.notify(NotificationType.Error, fullMessage);
+
                         });
                     } else if (error.status === 404) {
                         this.notificationService.notify(NotificationType.Error, 'Nenhum pedido encontrado para este e-mail.');

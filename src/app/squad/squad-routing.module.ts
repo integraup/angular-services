@@ -9,12 +9,12 @@ import { AccountItemComponent } from './account-item/account-item.component';
 import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
-  { path: 'account-squad/:type', component: AccountFormComponent, title: "Account Services - PAGPAG - Loja Online" },
-  { path: 'bot-squad', component: SquadCatalogComponent, title: "Bot Squad - PAGPAG - Loja Online" },
-  { path: 'squad-cart', component: CartComponent, title: "Squad Cart - PAGPAG - Loja Online" },
-  { path: 'bot-receivecd', component: ReceiveComponent, title: "Autorização de uso da plataforma - PAGPAG - Loja Online" },
+  { path: 'account-squad/:type', component: AccountFormComponent, title: "Account Services - MercadoPag - Loja Online" },
+  { path: 'bot-squad', component: SquadCatalogComponent, title: "Bot Squad - MercadoPag - Loja Online" },
+  { path: 'squad-cart', component: CartComponent, title: "Squad Cart - MercadoPag - Loja Online" },
+  { path: 'bot-receivecd', component: ReceiveComponent, title: "Autorização de uso da plataforma - MercadoPag - Loja Online" },
   { path: 'bot-order', component: OrdersComponent, title: "Order de compra" },
-  { path: 'bot-itemAccount', component: AccountItemComponent, title: "Autorização de uso da plataforma - PAGPAG - Loja Online" },
+  { path: 'bot-itemAccount', component: AccountItemComponent, title: "Autorização de uso da plataforma - MercadoPag - Loja Online" },
 
 ];
 

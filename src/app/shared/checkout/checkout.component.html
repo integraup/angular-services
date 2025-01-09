@@ -60,6 +60,18 @@
           Nome do Titular:
           <input formControlName="cardHolderName" type="text" required />
         </label>
+        <fieldset>
+          <legend>Parcelamento</legend>
+          <label>
+            Número de Parcelas:
+            <select formControlName="installments" required>
+              <option *ngFor="let option of installmentOptions" [value]="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+        </fieldset>
+
         <label>
           Número do Cartão:
           <input formControlName="cardNumber" type="text" required />

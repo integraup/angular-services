@@ -1,9 +1,13 @@
 <div class="banner-rotator">
-  <div class="banner" *ngFor="let banner of banners; let i = index" [class.active]="currentIndex === i" [ngStyle]="{'background-color': backgroundColor}">
+  <div class="banner" *ngFor="let banner of banners; let i = index" [class.active]="currentIndex === i" [ngStyle]="{'background-color': backgroundColor, 'background-blend-mode': 'overlay',
+  'opacity': opacityValue, 'background-image': 'url(' + banner.backgroundImage + ')'}">
     <div class="banner-content">
       <h2>{{ banner.title }}</h2>
       <p>{{ banner.description }}</p>
-      <button class="cta-button">{{ banner.buttonText }}</button>
+
+
+
+      <button (click)="navigateToSeller()" class="cta-button">{{ banner.buttonText }}</button>
     </div>
   </div>
   <button class="prev-button" (click)="previousBanner()">&#10094;</button>

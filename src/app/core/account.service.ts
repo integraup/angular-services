@@ -9,7 +9,7 @@ import { FirebaseAuthService } from '@shared/oauth/firebase-auth.service';
 })
 export class AccountService {
 
-  private baseUrl = 'https://us-central1-limp-2f1d4.cloudfunctions.net/app';
+  private readonly apiUrl = environment.apiUrl;
 
 
   constructor(private http: HttpClient, private auth: FirebaseAuthService) {}
@@ -24,10 +24,7 @@ export class AccountService {
       'x-client-secret': client_secret,
       'Authorization': authorization});
 
-      console.log("Request Headers:", headers);
-      console.log("Request Body:", accountData);
-
-    return this.http.post(`${this.baseUrl}/accounts`, accountData, { headers: headers }).pipe(
+    return this.http.post(`${this.apiUrl}/accounts`, accountData, { headers: headers }).pipe(
       catchError(error => {
         console.error('Erro ao criar createAccount:', error);
         return throwError(error);
@@ -43,7 +40,7 @@ export class AccountService {
       'x-idempotency-key': idempotencyKey // Substitua por um idempotency-key único se necessário
     });
 
-    return this.http.post(`${this.baseUrl}/accounts`, orderData, { headers });
+    return this.http.post(`${this.apiUrl}/orders`, orderData, { headers });
   }
 
 
@@ -51,7 +48,7 @@ export class AccountService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.post(`${this.baseUrl}/accounts-api`, accountData, { headers: headers}).pipe(
+    return this.http.post(`${this.apiUrl}/accounts-api`, accountData, { headers: headers}).pipe(
       catchError(error => {
         console.error('Erro ao criar a conta do usuário:', error);
         return throwError(error);
@@ -59,13 +56,23 @@ export class AccountService {
     );
   }
 
-
+  Register(registerData: {userEmail: string, userName: string}): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(`${this.apiUrl}/register`, registerData, { headers: headers}).pipe(
+      catchError(error => {
+        console.error('Erro ao criar a conta do usuário:', error);
+        return throwError(error);
+      })
+    );
+  }
 
   updateAccount(accountId: string, updateData: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.put(`${this.baseUrl}/accounts-api/${accountId}`, updateData, { headers }).pipe(
+    return this.http.put(`${this.apiUrl}/accounts-api/${accountId}`, updateData, { headers }).pipe(
       catchError(error => {
         console.error('Erro ao atualizar os dados da conta:', error);
         return throwError(error);
@@ -73,10 +80,23 @@ export class AccountService {
     );
   }
 
-
-  saveOrder(orderData: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/createAccount/save-order`, orderData);
+  saveOrderData(orderData: any): Observable<any> {
+    const authorization = `Bearer ${environment.pagbank.bearer_token}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post(`${this.apiUrl}/save-order`, orderData, { headers });
   }
+
+
+  // saveOrder(orderData: any): Observable<any> {
+  //   const authorization = `Bearer ${environment.pagbank.bearer_token}`;
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //     'Authorization': authorization
+  //   });
+  //   return this.http.post(`${this.apiUrlLocal}/orders`, orderData, { headers });
+  // }
 
   // getAccountByEmail(email: string): Observable<any> {
   //   return this.auth.currentUser$.pipe(

@@ -1,5 +1,6 @@
 export const environment = {
-  production: false,
+  production: true,
+  apiUrl: 'https://us-central1-limp-2f1d4.cloudfunctions.net/app',
   firebase: {
     apiKey: "AIzaSyBkxT7tPZ-MTyinPOTfAYbiGfRqFafCImg",
     authDomain: "limp-2f1d4.firebaseapp.com",

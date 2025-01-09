@@ -31,10 +31,6 @@ export class LoginComponent {
       const senha = this.loginForm.get('senha')?.value;
 
       this.firebaseAuthService.login(login, senha).then((response) => {
-
-
-        console.log('Login bem-sucedido:', response);
-
         if (response?.accountData?.rules?.isAdmin && !response?.accountData?.code) {
           this.notificationService.notify(NotificationType.Warning, 'Usuário é administrador precisa aceitar os termos, redirecionando...');
 
@@ -43,7 +39,6 @@ export class LoginComponent {
           const authorizationUrl = `https://connect.sandbox.pagseguro.uol.com.br/oauth2/authorize?response_type=code&client_id=723a6987-3bd4-4a75-9127-1fe9c800a4e8&redirect_uri=${url}&scope=${permissions}&state=${response.email}`;
           window.location.href = authorizationUrl;
         } else {
-          console.log('Usuário não cumpre os critérios para redirecionamento.');
         }
 
 
